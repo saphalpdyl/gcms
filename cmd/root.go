@@ -10,9 +10,13 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 package cmd
 
 import (
+	"fmt"
+	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var rootCmd = &cobra.Command{
@@ -30,4 +34,33 @@ func Execute() {
 }
 
 func init() {
+	// Configuration directory and file
+	homeDirectoryPath, err := os.UserHomeDir()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Create the base .gcms folder
+	homePath := filepath.Join(homeDirectoryPath, ".gcms")
+	err = os.MkdirAll(homePath, os.ModePerm)
+	if err != nil {
+		log.Fatalf("cannot create .gcms directory in USER_HOME: %v", err)
+	}
+
+	// Setup Viper Configuration
+	configFileName := "gcms.config.yml"
+
+	viper.SetConfigType("yaml")
+	viper.SetConfigFile(filepath.Join(homePath, configFileName))
+
+	viper.SetDefault("github.github_api_key", "<missing>")
+	viper.SetDefault("github.remote_folder_name", "<missing>")
+
+	err = viper.ReadInConfig()
+	if err != nil {
+		fmt.Println("Missing configuration files. Creating a new configuration...")
+
+		viper.WriteConfig()
+	}
+
 }
