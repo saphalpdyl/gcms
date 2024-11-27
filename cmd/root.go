@@ -66,7 +66,7 @@ func init() {
 	viper.SetConfigFile(filepath.Join(homePath, configFileName))
 
 	viper.SetDefault("github.api_key", MISSING_VALUE)
-	viper.SetDefault("github.remote_folder_name", MISSING_VALUE)
+	viper.SetDefault("github.remote", MISSING_VALUE)
 
 	err = viper.ReadInConfig()
 	if err != nil {
