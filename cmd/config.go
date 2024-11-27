@@ -71,6 +71,29 @@ var configSetCommand = &cobra.Command{
 	},
 }
 
+var configGetCommand = &cobra.Command{
+	Use:  "get <key>",
+	Args: cobra.ExactArgs(1),
+	Run: func(cmd *cobra.Command, args []string) {
+		err := viper.ReadInConfig()
+		if err != nil {
+			log.Fatalf("fatal reading config %v", err)
+		}
+
+		k := args[0]
+
+		value := viper.GetString(k)
+
+		if value == "" {
+			fmt.Printf("Key %s doesn't exist in configuration\n", styles.RenderBold(k))
+			return
+		}
+
+		fmt.Printf("Result -> %s: %s\n", styles.RenderBold(k), styles.RenderBold(value))
+	},
+}
+
 func init() {
 	configCommand.AddCommand(configSetCommand)
+	configCommand.AddCommand(configGetCommand)
 }
