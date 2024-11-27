@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
+	"github.com/saphalpdyl/gcms/internals/styles"
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +29,15 @@ var initCommmand = &cobra.Command{
 
 		if emptyFlag {
 			// Initialize the repository
-			createRepoCmd := exec.Command("git", "init", filepath.Join(homePath, "repo"))
+			repositoryFilePath := filepath.Join(homePath, "repo")
+
+			// Check for previous initialization
+			if repositoryExists {
+				log.Fatalf("fatal %s", styles.RenderDiff("Repository already exists. Remove the exisiting repository first.", false, ""))
+				return
+			}
+
+			createRepoCmd := exec.Command("git", "init", repositoryFilePath)
 			_, err := createRepoCmd.CombinedOutput()
 
 			if err != nil {

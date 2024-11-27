@@ -15,6 +15,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/saphalpdyl/gcms/internals/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -24,8 +25,9 @@ const (
 )
 
 var (
-	homePath       string
-	repoFolderPath string
+	homePath         string
+	repoFolderPath   string
+	repositoryExists bool
 )
 
 var rootCmd = &cobra.Command{
@@ -75,4 +77,6 @@ func init() {
 		viper.WriteConfig()
 	}
 
+	// Check for repository status
+	repositoryExists = utils.PathExists(filepath.Join(homePath, "repo"))
 }

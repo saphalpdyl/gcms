@@ -1,6 +1,9 @@
 package utils
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func StringInStringList(searchItem string, list []string) bool {
 	for _, item := range list {
@@ -24,4 +27,15 @@ func GenerateDSVFromStringList(list []string) string {
 	}
 
 	return finalString[:len(finalString)-1]
+}
+
+func PathExists(path string) bool {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true
+	}
+	if os.IsNotExist(err) {
+		return false
+	}
+	return false
 }
