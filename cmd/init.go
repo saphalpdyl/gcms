@@ -27,15 +27,16 @@ var initCommmand = &cobra.Command{
 		emptyFlag, _ := cmd.Flags().GetBool("empty")
 		// fromFlag, _ := cmd.Flags().GetString("from")
 
+		repositoryFilePath := filepath.Join(homePath, "repo")
+
+		// Check for previous initialization
+		if repositoryExists {
+			log.Fatalf("fatal %s", styles.RenderDiff("Repository already exists. Remove the exisiting repository first.", false, ""))
+			return
+		}
+
 		if emptyFlag {
 			// Initialize the repository
-			repositoryFilePath := filepath.Join(homePath, "repo")
-
-			// Check for previous initialization
-			if repositoryExists {
-				log.Fatalf("fatal %s", styles.RenderDiff("Repository already exists. Remove the exisiting repository first.", false, ""))
-				return
-			}
 
 			createRepoCmd := exec.Command("git", "init", repositoryFilePath)
 			_, err := createRepoCmd.CombinedOutput()
