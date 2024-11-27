@@ -1,0 +1,13 @@
+cms -> Show menu
+gcms config set api_token <token> -> Sets the api token
+gcms config get api_token -> Gets the api token
+
+gcms init --from <github_link> -> Clones this repo and tries to make it the gcms repo
+gcms init --empty -> Initializes an empty repo and sets it as the gcms repo
+gcms info repo -> Get information about the GCMS local repo
+gcms info remote -> Gets information about the GCMS remote repo
+
+gcms push <filename>.html -> Pushes the filename to the repo
+gcms push (-c / --convert) <filename>.ipynb -> Converts the ipynb file to html and pushes
+gcms list -> Lists all the files in the local repo
+gcms remove <filename>.html -> Removes the files from the local and remote

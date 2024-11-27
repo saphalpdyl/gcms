@@ -19,6 +19,11 @@ import (
 	"github.com/spf13/viper"
 )
 
+var (
+	homePath       string
+	repoFolderPath string
+)
+
 var rootCmd = &cobra.Command{
 	Use:   "gcms",
 	Short: "A free Github-based Content Management System",
@@ -27,6 +32,9 @@ var rootCmd = &cobra.Command{
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
+	// Configuration
+	rootCmd.AddCommand(configCommand)
+
 	err := rootCmd.Execute()
 	if err != nil {
 		os.Exit(1)
@@ -41,7 +49,7 @@ func init() {
 	}
 
 	// Create the base .gcms folder
-	homePath := filepath.Join(homeDirectoryPath, ".gcms")
+	homePath = filepath.Join(homeDirectoryPath, ".gcms")
 	err = os.MkdirAll(homePath, os.ModePerm)
 	if err != nil {
 		log.Fatalf("cannot create .gcms directory in USER_HOME: %v", err)
