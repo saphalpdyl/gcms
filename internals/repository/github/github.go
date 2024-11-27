@@ -3,6 +3,7 @@ package github
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 )
@@ -25,7 +26,7 @@ func verifyInitialization() {
 	}
 }
 
-func CreateNewRepository(repoName string) {
+func CreateNewRepository(repoName string) error {
 	verifyInitialization()
 
 	// Create the request body
@@ -51,8 +52,10 @@ func CreateNewRepository(repoName string) {
 	// Make the request
 	client := &http.Client{}
 	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal("Error sending request:", err)
+
+	if resp.StatusCode != 201 {
+		return fmt.Errorf("%s", resp.Status)
 	}
-	defer resp.Body.Close()
+
+	return err
 }

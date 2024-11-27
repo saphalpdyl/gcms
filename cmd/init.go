@@ -3,8 +3,10 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 
+	"github.com/saphalpdyl/gcms/internals/repository/github"
 	"github.com/saphalpdyl/gcms/internals/styles"
 	"github.com/saphalpdyl/gcms/internals/validator"
 	"github.com/spf13/cobra"
@@ -42,6 +44,28 @@ var initCommmand = &cobra.Command{
 
 			if err != nil {
 				log.Fatalf("fatal cannot create empty repository %v", err)
+			}
+
+			// Create the remote repository
+			var repoNameAnswer string
+			fmt.Print(styles.RenderBold("Name of repo (default: gcms) - "))
+			fmt.Scan(&repoNameAnswer)
+
+			if repoNameAnswer == "" {
+				repoNameAnswer = "gcms"
+			}
+
+			err = github.CreateNewRepository(repoNameAnswer)
+			if err != nil {
+				fmt.Print(
+					styles.RenderDiff(
+						"Failed to create remote repository: Already Exists\n",
+						false,
+						"",
+					),
+				)
+
+				os.RemoveAll(repoFolderPath)
 			}
 
 			return
