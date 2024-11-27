@@ -31,7 +31,7 @@ var initCommmand = &cobra.Command{
 
 		// Check for previous initialization
 		if repositoryExists {
-			log.Fatalf("fatal %s", styles.RenderDiff("Repository already exists. Remove the exisiting repository first.", false, ""))
+			log.Fatalf("fatal %s", styles.RenderDiff("Repository already exists. Remove the existing repository first.", false, ""))
 			return
 		}
 
