@@ -2,9 +2,12 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
-	utils "github.com/saphalpdyl/gcms/internals"
+	"github.com/saphalpdyl/gcms/internals/styles"
+	utils "github.com/saphalpdyl/gcms/internals/utils"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var (
@@ -32,6 +35,26 @@ var configSetCommand = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		err := viper.ReadInConfig()
+		if err != nil {
+			log.Fatalf("fatal reading config %v", err)
+		}
+
+		k, _ := args[0], args[1]
+
+		previousValue := viper.GetString(k)
+
+		if previousValue != MISSING_VALUE {
+			// Ask for confirmation
+
+			confirmationMessage := fmt.Sprintf(
+				"Value exists: %s\n Are you sure you want to replace it? [y/N]", styles.RenderDanger(previousValue))
+			confirmationRenderedMesage := styles.RenderBold(confirmationMessage)
+			var confirmationAnswer string
+
+			fmt.Print(confirmationRenderedMesage)
+			fmt.Scan(&confirmationAnswer)
+		}
 	},
 }
 

@@ -19,6 +19,10 @@ import (
 	"github.com/spf13/viper"
 )
 
+const (
+	MISSING_VALUE = "<missing>"
+)
+
 var (
 	homePath       string
 	repoFolderPath string
@@ -61,8 +65,8 @@ func init() {
 	viper.SetConfigType("yaml")
 	viper.SetConfigFile(filepath.Join(homePath, configFileName))
 
-	viper.SetDefault("github.github_api_key", "<missing>")
-	viper.SetDefault("github.remote_folder_name", "<missing>")
+	viper.SetDefault("github.api_key", MISSING_VALUE)
+	viper.SetDefault("github.remote_folder_name", MISSING_VALUE)
 
 	err = viper.ReadInConfig()
 	if err != nil {
