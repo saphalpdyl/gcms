@@ -58,7 +58,16 @@ var configSetCommand = &cobra.Command{
 
 			fmt.Print(confirmationRenderedMesage)
 			fmt.Scan(&confirmationAnswer)
+
+			// Exit if other character except Y or y
+			if confirmationAnswer != "Y" && confirmationAnswer != "y" {
+				return
+			}
 		}
+
+		viper.Set(k, v)
+		viper.WriteConfig()
+		fmt.Println("Configuration Saved...")
 	},
 }
 
