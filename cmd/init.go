@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
-	"path/filepath"
 
 	"github.com/saphalpdyl/gcms/internals/styles"
+	"github.com/saphalpdyl/gcms/internals/validator"
 	"github.com/spf13/cobra"
 )
 
@@ -27,7 +27,7 @@ var initCommmand = &cobra.Command{
 		emptyFlag, _ := cmd.Flags().GetBool("empty")
 		// fromFlag, _ := cmd.Flags().GetString("from")
 
-		repositoryFilePath := filepath.Join(homePath, "repo")
+		validator.ValidatePATExists()
 
 		// Check for previous initialization
 		if repositoryExists {
@@ -38,12 +38,13 @@ var initCommmand = &cobra.Command{
 		if emptyFlag {
 			// Initialize the repository
 
-			createRepoCmd := exec.Command("git", "init", repositoryFilePath)
+			createRepoCmd := exec.Command("git", "init", repoFolderPath)
 			_, err := createRepoCmd.CombinedOutput()
 
 			if err != nil {
 				log.Fatalf("fatal cannot create empty repository %v", err)
 			}
+
 			return
 		}
 

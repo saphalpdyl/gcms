@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/saphalpdyl/gcms/internals/defaults"
 	"github.com/saphalpdyl/gcms/internals/styles"
 	utils "github.com/saphalpdyl/gcms/internals/utils"
 	"github.com/spf13/cobra"
@@ -12,8 +13,8 @@ import (
 
 var (
 	k_allowedConfigSetValues = []string{
-		configGithubPATToken,
-		configGithubRemote,
+		defaults.ConfigGithubPATToken,
+		defaults.ConfigGithubRemote,
 	}
 )
 
@@ -47,7 +48,7 @@ var configSetCommand = &cobra.Command{
 
 		previousValue := viper.GetString(k)
 
-		if previousValue != MISSING_VALUE {
+		if previousValue != defaults.MISSING_VALUE {
 			// Ask for confirmation
 
 			confirmationMessage := fmt.Sprintf(
