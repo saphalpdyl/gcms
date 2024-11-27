@@ -24,6 +24,13 @@ const (
 	MISSING_VALUE = "<missing>"
 )
 
+// Configuration Settings Keys
+var (
+	configGithubPATToken = "github.pat_token"
+	configGithubRemote   = "github.remote"
+)
+
+// Global variables
 var (
 	homePath         string
 	repoFolderPath   string
@@ -67,8 +74,8 @@ func init() {
 	viper.SetConfigType("yaml")
 	viper.SetConfigFile(filepath.Join(homePath, configFileName))
 
-	viper.SetDefault("github.api_key", MISSING_VALUE)
-	viper.SetDefault("github.remote", MISSING_VALUE)
+	viper.SetDefault(configGithubPATToken, MISSING_VALUE)
+	viper.SetDefault(configGithubRemote, MISSING_VALUE)
 
 	err = viper.ReadInConfig()
 	if err != nil {

@@ -11,7 +11,10 @@ import (
 )
 
 var (
-	k_allowedConfigSetValues = []string{"github.api_key"}
+	k_allowedConfigSetValues = []string{
+		configGithubPATToken,
+		configGithubRemote,
+	}
 )
 
 var configCommand = &cobra.Command{
