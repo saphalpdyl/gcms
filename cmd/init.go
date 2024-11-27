@@ -37,7 +37,6 @@ var initCommmand = &cobra.Command{
 
 		if emptyFlag {
 			// Initialize the repository
-
 			createRepoCmd := exec.Command("git", "init", repoFolderPath)
 			_, err := createRepoCmd.CombinedOutput()
 

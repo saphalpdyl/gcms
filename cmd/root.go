@@ -16,6 +16,7 @@ import (
 	"path/filepath"
 
 	"github.com/saphalpdyl/gcms/internals/defaults"
+	"github.com/saphalpdyl/gcms/internals/repository/github"
 	"github.com/saphalpdyl/gcms/internals/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -79,4 +80,9 @@ func init() {
 
 	// Check for repository status
 	repositoryExists = utils.PathExists(repoFolderPath)
+
+	// Verify Github Repository Initialization
+	if viper.GetString(defaults.ConfigGithubPATToken) != defaults.MISSING_VALUE {
+		github.Initiailize(viper.GetString(defaults.ConfigGithubPATToken))
+	}
 }
