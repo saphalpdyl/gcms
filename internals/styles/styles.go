@@ -1,6 +1,10 @@
 package styles
 
-import "github.com/charmbracelet/lipgloss"
+import (
+	"fmt"
+
+	"github.com/charmbracelet/lipgloss"
+)
 
 func RenderBold(t string) string {
 	return lipgloss.
@@ -9,11 +13,19 @@ func RenderBold(t string) string {
 		Render(t)
 }
 
-func RenderDanger(t string) string {
+func RenderDiff(t string, isPositiveChange bool, prefix string) string {
+	var textColorCode string
+
+	if isPositiveChange {
+		textColorCode = "#04B575"
+	} else {
+		textColorCode = "9"
+	}
+
 	return lipgloss.
 		NewStyle().
 		Bold(true).
 		Underline(true).
-		Foreground(lipgloss.Color("9")).
-		Render(t)
+		Foreground(lipgloss.Color(textColorCode)).
+		Render(fmt.Sprintf("%s%s", prefix, t))
 }

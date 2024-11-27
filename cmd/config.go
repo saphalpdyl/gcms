@@ -40,7 +40,7 @@ var configSetCommand = &cobra.Command{
 			log.Fatalf("fatal reading config %v", err)
 		}
 
-		k, _ := args[0], args[1]
+		k, v := args[0], args[1]
 
 		previousValue := viper.GetString(k)
 
@@ -48,7 +48,11 @@ var configSetCommand = &cobra.Command{
 			// Ask for confirmation
 
 			confirmationMessage := fmt.Sprintf(
-				"Value exists: %s\n Are you sure you want to replace it? [y/N]", styles.RenderDanger(previousValue))
+				"Value exists: \n\t%s\n\t%s\n Are you sure you want to replace it? [y/N]",
+				styles.RenderDiff(previousValue, false, "- "),
+				styles.RenderDiff(v, true, "+ "),
+			)
+
 			confirmationRenderedMesage := styles.RenderBold(confirmationMessage)
 			var confirmationAnswer string
 
