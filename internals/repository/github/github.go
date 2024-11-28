@@ -31,6 +31,20 @@ type CreateNewRepositoryResponse struct {
 	URL string `json:"html_url"`
 }
 
+func prepareRequest(url string, requestType string, payload []byte) *http.Request {
+	// Create a new HTTP request
+	req, err := http.NewRequest(requestType, url, bytes.NewBuffer(payload))
+	if err != nil {
+		log.Fatal("Error creating request:", err)
+	}
+
+	// Add the Authorization header
+	req.Header.Set("Authorization", "token "+instance.PATToken)
+	req.Header.Set("Content-Type", "application/json")
+
+	return req
+}
+
 func CreateNewRepository(repoName string) (string, error) {
 	verifyInitialization()
 
@@ -43,16 +57,8 @@ func CreateNewRepository(repoName string) (string, error) {
 		log.Fatal("Error marshalling JSON:", err)
 	}
 
-	// Create a new HTTP request
 	url := "https://api.github.com/user/repos"
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-	if err != nil {
-		log.Fatal("Error creating request:", err)
-	}
-
-	// Add the Authorization header
-	req.Header.Set("Authorization", "token "+instance.PATToken)
-	req.Header.Set("Content-Type", "application/json")
+	req := prepareRequest(url, "POST", jsonData)
 
 	// Make the request
 	client := &http.Client{}

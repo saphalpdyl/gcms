@@ -7,6 +7,9 @@ gcms init --empty -> Initializes an empty repo and sets it as the gcms repo
 gcms info repo -> Get information about the GCMS local repo
 gcms info remote -> Gets information about the GCMS remote repo
 
+gcms detach -> Soft detach just detaches the remote repository
+gcms detach --hard -> Hard detches and deletes the remote repository given sufficient perms
+
 gcms push <filename>.html -> Pushes the filename to the repo
 gcms push (-c / --convert) <filename>.ipynb -> Converts the ipynb file to html and pushes
 gcms list -> Lists all the files in the local repo
