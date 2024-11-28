@@ -7,6 +7,9 @@ import (
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/config"
 )
 
 type githubRepository struct {
@@ -104,4 +107,29 @@ func DeleteRepository(url string) error {
 	}
 
 	return nil
+}
+
+func LinkLocalToRemote(path string, repoName string, ownerName string) {
+	verifyInitialization()
+
+	r, err := git.PlainOpen(path)
+	if err != nil {
+		log.Fatal("fatal couldn't open repository: ", err)
+	}
+
+	remoteURL := fmt.Sprintf("https://%s:%s@github.com/%s/%s.git", ownerName, instance.PATToken, ownerName, repoName)
+
+	_, err = r.CreateRemote(&config.RemoteConfig{
+		Name: "origin",
+		URLs: []string{remoteURL},
+	})
+
+	if err != nil {
+		log.Fatal("fatal couldn't create remote: ", err)
+	}
+
+	// Fetch just once
+	r.Fetch(&git.FetchOptions{
+		RemoteName: "origin",
+	})
 }

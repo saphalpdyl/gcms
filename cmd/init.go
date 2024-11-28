@@ -72,6 +72,8 @@ var initCommmand = &cobra.Command{
 				viper.Set(defaults.ConfigGithubRemoteFullName, defaults.MISSING_VALUE)
 				viper.Set(defaults.ConfigGithubRemoteRepoName, defaults.MISSING_VALUE)
 				viper.Set(defaults.ConfigGithubRemoteUserName, defaults.MISSING_VALUE)
+
+				return
 			}
 
 			// Set remote in config as responseURL
@@ -80,6 +82,10 @@ var initCommmand = &cobra.Command{
 			viper.Set(defaults.ConfigGithubRemoteRepoName, response.RepositoryName)
 			viper.Set(defaults.ConfigGithubRemoteUserName, response.RepositoryOwner.RepositoryOwnerName)
 			viper.WriteConfig()
+
+			// Add the remote repository to the local
+			github.LinkLocalToRemote(repoFolderPath, response.RepositoryName, response.RepositoryOwner.RepositoryOwnerName)
+
 			return
 		}
 
