@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 )
@@ -26,7 +27,11 @@ func verifyInitialization() {
 	}
 }
 
-func CreateNewRepository(repoName string) error {
+type CreateNewRepositoryResponse struct {
+	URL string `json:"html_url"`
+}
+
+func CreateNewRepository(repoName string) (string, error) {
 	verifyInitialization()
 
 	// Create the request body
@@ -51,11 +56,25 @@ func CreateNewRepository(repoName string) error {
 
 	// Make the request
 	client := &http.Client{}
-	resp, err := client.Do(req)
+	resp, _ := client.Do(req)
 
 	if resp.StatusCode != 201 {
-		return fmt.Errorf("%s", resp.Status)
+		return "", fmt.Errorf("%s", resp.Status)
 	}
 
-	return err
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalf("Error reading body: %v", err)
+	}
+
+	defer resp.Body.Close()
+
+	var response CreateNewRepositoryResponse
+
+	err = json.Unmarshal(body, &response)
+	if err != nil {
+		log.Fatal("fatal couldn't unmarshal repository response", err)
+	}
+
+	return response.URL, nil
 }

@@ -6,10 +6,12 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/saphalpdyl/gcms/internals/defaults"
 	"github.com/saphalpdyl/gcms/internals/repository/github"
 	"github.com/saphalpdyl/gcms/internals/styles"
 	"github.com/saphalpdyl/gcms/internals/validator"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var initCommmand = &cobra.Command{
@@ -55,7 +57,7 @@ var initCommmand = &cobra.Command{
 				repoNameAnswer = "gcms"
 			}
 
-			err = github.CreateNewRepository(repoNameAnswer)
+			responseURL, err := github.CreateNewRepository(repoNameAnswer)
 			if err != nil {
 				fmt.Print(
 					styles.RenderDiff(
@@ -66,8 +68,12 @@ var initCommmand = &cobra.Command{
 				)
 
 				os.RemoveAll(repoFolderPath)
+				viper.Set(defaults.ConfigGithubRemote, defaults.MISSING_VALUE)
 			}
 
+			// Set remote in config as responseURL
+			viper.Set(defaults.ConfigGithubRemote, responseURL)
+			viper.WriteConfig()
 			return
 		}
 
