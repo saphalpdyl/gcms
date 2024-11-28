@@ -1,6 +1,5 @@
 /*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2024 Saphal Poudyal saphalpdyl@gmail.com
 */
 package main
 
