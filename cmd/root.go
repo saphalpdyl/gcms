@@ -69,7 +69,10 @@ func init() {
 	viper.SetConfigFile(filepath.Join(homePath, configFileName))
 
 	viper.SetDefault(defaults.ConfigGithubPATToken, defaults.MISSING_VALUE)
-	viper.SetDefault(defaults.ConfigGithubRemote, defaults.MISSING_VALUE)
+	viper.SetDefault(defaults.ConfigGithubRemoteURL, defaults.MISSING_VALUE)
+	viper.SetDefault(defaults.ConfigGithubRemoteFullName, defaults.MISSING_VALUE)
+	viper.SetDefault(defaults.ConfigGithubRemoteRepoName, defaults.MISSING_VALUE)
+	viper.SetDefault(defaults.ConfigGithubRemoteUserName, defaults.MISSING_VALUE)
 
 	err = viper.ReadInConfig()
 	if err != nil {

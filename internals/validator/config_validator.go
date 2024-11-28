@@ -37,7 +37,7 @@ func ValidateRemoteExists() {
 		log.Fatalf(
 			"fatal %s",
 			styles.RenderDiff(
-				fmt.Sprintf("GitHub Remote is not configured. Configure using gcms config set %s <remote_link>", defaults.ConfigGithubRemote),
+				fmt.Sprintf("GitHub Remote is not configured. Configure using gcms config set %s <remote_link>", defaults.ConfigGithubRemoteURL),
 				false,
 				"",
 			),

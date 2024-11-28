@@ -57,7 +57,7 @@ var initCommmand = &cobra.Command{
 				repoNameAnswer = "gcms"
 			}
 
-			responseURL, err := github.CreateNewRepository(repoNameAnswer)
+			response, err := github.CreateNewRepository(repoNameAnswer)
 			if err != nil {
 				fmt.Print(
 					styles.RenderDiff(
@@ -68,11 +68,17 @@ var initCommmand = &cobra.Command{
 				)
 
 				os.RemoveAll(repoFolderPath)
-				viper.Set(defaults.ConfigGithubRemote, defaults.MISSING_VALUE)
+				viper.Set(defaults.ConfigGithubRemoteURL, defaults.MISSING_VALUE)
+				viper.Set(defaults.ConfigGithubRemoteFullName, defaults.MISSING_VALUE)
+				viper.Set(defaults.ConfigGithubRemoteRepoName, defaults.MISSING_VALUE)
+				viper.Set(defaults.ConfigGithubRemoteUserName, defaults.MISSING_VALUE)
 			}
 
 			// Set remote in config as responseURL
-			viper.Set(defaults.ConfigGithubRemote, responseURL)
+			viper.Set(defaults.ConfigGithubRemoteURL, response.URL)
+			viper.Set(defaults.ConfigGithubRemoteFullName, response.RepositoryFullName)
+			viper.Set(defaults.ConfigGithubRemoteRepoName, response.RepositoryName)
+			viper.Set(defaults.ConfigGithubRemoteUserName, response.RepositoryOwner.RepositoryOwnerName)
 			viper.WriteConfig()
 			return
 		}

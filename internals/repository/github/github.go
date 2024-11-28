@@ -28,7 +28,12 @@ func verifyInitialization() {
 }
 
 type CreateNewRepositoryResponse struct {
-	URL string `json:"html_url"`
+	URL                string `json:"html_url"`
+	RepositoryName     string `json:"name"`
+	RepositoryFullName string `json:"full_name"`
+	RepositoryOwner    struct {
+		RepositoryOwnerName string `json:"login"`
+	} `json:"owner"`
 }
 
 func prepareRequest(url string, requestType string, payload []byte) *http.Request {
@@ -45,7 +50,7 @@ func prepareRequest(url string, requestType string, payload []byte) *http.Reques
 	return req
 }
 
-func CreateNewRepository(repoName string) (string, error) {
+func CreateNewRepository(repoName string) (*CreateNewRepositoryResponse, error) {
 	verifyInitialization()
 
 	// Create the request body
@@ -65,7 +70,7 @@ func CreateNewRepository(repoName string) (string, error) {
 	resp, _ := client.Do(req)
 
 	if resp.StatusCode != 201 {
-		return "", fmt.Errorf("%s", resp.Status)
+		return nil, fmt.Errorf("%s", resp.Status)
 	}
 
 	body, err := io.ReadAll(resp.Body)
@@ -75,12 +80,28 @@ func CreateNewRepository(repoName string) (string, error) {
 
 	defer resp.Body.Close()
 
-	var response CreateNewRepositoryResponse
+	var response *CreateNewRepositoryResponse
 
 	err = json.Unmarshal(body, &response)
 	if err != nil {
 		log.Fatal("fatal couldn't unmarshal repository response", err)
 	}
 
-	return response.URL, nil
+	return response, nil
+}
+
+func DeleteRepository(url string) error {
+	verifyInitialization()
+
+	req := prepareRequest(url, "DELETE", []byte{})
+
+	// Make the request
+	client := &http.Client{}
+	resp, _ := client.Do(req)
+
+	if resp.StatusCode != 204 {
+		return fmt.Errorf("%s", resp.Status)
+	}
+
+	return nil
 }

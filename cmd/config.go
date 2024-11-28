@@ -14,7 +14,7 @@ import (
 var (
 	k_allowedConfigSetValues = []string{
 		defaults.ConfigGithubPATToken,
-		defaults.ConfigGithubRemote,
+		defaults.ConfigGithubRemoteURL,
 	}
 )
 
