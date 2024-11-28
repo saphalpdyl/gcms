@@ -57,7 +57,7 @@ var detachCommand = &cobra.Command{
 				log.Fatal("fatal couldn't delete the remote repository: ", err)
 			}
 
-			fmt.Println("\nSuccessfully delete remote...")
+			fmt.Println("\nSuccessfully deleted remote...")
 		}
 
 		err = r.DeleteRemote("origin")
