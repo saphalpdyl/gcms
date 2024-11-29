@@ -7,7 +7,6 @@ import (
 	"os/exec"
 
 	"github.com/saphalpdyl/gcms/internals/defaults"
-	"github.com/saphalpdyl/gcms/internals/repository/github"
 	"github.com/saphalpdyl/gcms/internals/styles"
 	"github.com/saphalpdyl/gcms/internals/validator"
 	"github.com/spf13/cobra"
@@ -57,7 +56,7 @@ var initCommmand = &cobra.Command{
 				repoNameAnswer = "gcms"
 			}
 
-			response, err := github.CreateNewRepository(repoNameAnswer)
+			response, err := githubService.CreateNewRepository(repoNameAnswer)
 			if err != nil {
 				fmt.Print(
 					styles.RenderDiff(
@@ -84,7 +83,7 @@ var initCommmand = &cobra.Command{
 			viper.WriteConfig()
 
 			// Add the remote repository to the local
-			github.LinkLocalToRemote(repoFolderPath, response.RepositoryName, response.RepositoryOwner.RepositoryOwnerName)
+			githubService.LinkLocalToRemote(repoFolderPath, response.RepositoryName, response.RepositoryOwner.RepositoryOwnerName)
 
 			return
 		}

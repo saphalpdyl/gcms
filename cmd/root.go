@@ -17,6 +17,7 @@ import (
 
 	"github.com/saphalpdyl/gcms/internals/defaults"
 	"github.com/saphalpdyl/gcms/internals/repository/github"
+	github_service "github.com/saphalpdyl/gcms/internals/services/github"
 	"github.com/saphalpdyl/gcms/internals/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -27,6 +28,12 @@ var (
 	homePath         string
 	repoFolderPath   string
 	repositoryExists bool
+)
+
+// Serivces
+var (
+	githubService    github_service.IGithubService
+	githubRepository github.IGithubRepository
 )
 
 var rootCmd = &cobra.Command{
@@ -86,6 +93,8 @@ func init() {
 
 	// Verify Github Repository Initialization
 	if viper.GetString(defaults.ConfigGithubPATToken) != defaults.MISSING_VALUE {
-		github.Initiailize(viper.GetString(defaults.ConfigGithubPATToken))
+		// github.Initiailize(viper.GetString(defaults.ConfigGithubPATToken))
+		githubRepository = github.NewRepository(viper.GetString(defaults.ConfigGithubPATToken))
+		githubService = github_service.NewService(githubRepository)
 	}
 }

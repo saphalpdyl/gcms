@@ -6,7 +6,6 @@ import (
 
 	"github.com/go-git/go-git/v5"
 	"github.com/saphalpdyl/gcms/internals/defaults"
-	"github.com/saphalpdyl/gcms/internals/repository/github"
 	"github.com/saphalpdyl/gcms/internals/styles"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -17,6 +16,7 @@ var detachCommand = &cobra.Command{
 	Short: "Detach the local repository with the remote",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
+
 		isHardDetachFlagValue, _ := cmd.Flags().GetBool("hard")
 
 		// Open the repository
@@ -51,7 +51,7 @@ var detachCommand = &cobra.Command{
 				return
 			}
 
-			err = github.DeleteRepository(url)
+			err = githubService.DeleteRepository(url)
 
 			if err != nil {
 				log.Fatal("fatal couldn't delete the remote repository: ", err)
