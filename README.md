@@ -38,6 +38,7 @@ GCMS is a command-line interface (CLI) tool designed to manage content on GitHub
 | `gcms info remote` | Gets information about the remote GCMS repository |
 | `gcms detach` | Soft detaches the remote repository, removing only the remotes |
 | `gcms detach --hard` | Hard detaches and deletes the remote repository, given sufficient permissions |
+| `gcms delete-local` | [WARN] Deletes the local repository |
 | `gcms push <filename>.html` | Pushes the specified HTML file to the repository |
 | `gcms push (-c / --convert) <filename>.ipynb` | Converts the Jupyter Notebook file to HTML and pushes it to the repository |
 | `gcms list` | Lists all files in the local repository |
