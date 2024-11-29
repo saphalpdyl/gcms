@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/saphalpdyl/gcms/internals/styles"
+	"github.com/saphalpdyl/gcms/helpers"
 	"github.com/spf13/cobra"
 )
 
@@ -18,9 +18,9 @@ var removeCommand = &cobra.Command{
 		// Confirmation message
 		fmt.Printf(
 			"\n%s\n%s\n%s\n",
-			styles.RenderDiff("Deleting the local repository", false, ""),
+			helpers.RenderDiff("Deleting the local repository", false, ""),
 			"This action is irreversible.",
-			styles.RenderBold("Are you sure you want to continue?[y/N] "),
+			helpers.RenderBold("Are you sure you want to continue?[y/N] "),
 		)
 		fmt.Scan(&deleteConfirmationAnswer)
 

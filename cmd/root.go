@@ -16,7 +16,7 @@ import (
 	"path/filepath"
 
 	"github.com/saphalpdyl/gcms/internals/defaults"
-	"github.com/saphalpdyl/gcms/internals/repository/github"
+	"github.com/saphalpdyl/gcms/internals/repositories/github"
 	github_service "github.com/saphalpdyl/gcms/internals/services/github"
 	"github.com/saphalpdyl/gcms/utils"
 	"github.com/spf13/cobra"

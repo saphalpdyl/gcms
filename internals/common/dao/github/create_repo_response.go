@@ -1,6 +1,6 @@
 package github_dao
 
-import "github.com/saphalpdyl/gcms/internals/repository/github"
+import "github.com/saphalpdyl/gcms/internals/repositories/github"
 
 // Data Access Objects
 type CreateNewRepositoryResponseDAO struct {

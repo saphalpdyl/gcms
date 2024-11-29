@@ -2,7 +2,7 @@ package github_service
 
 import (
 	github_dao "github.com/saphalpdyl/gcms/internals/common/dao/github"
-	"github.com/saphalpdyl/gcms/internals/repository/github"
+	"github.com/saphalpdyl/gcms/internals/repositories/github"
 )
 
 type GithubServiceImpl struct {
