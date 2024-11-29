@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/saphalpdyl/gcms/helpers"
 	"github.com/saphalpdyl/gcms/internals/defaults"
-	"github.com/saphalpdyl/gcms/internals/styles"
-	utils "github.com/saphalpdyl/gcms/internals/utils"
+	"github.com/saphalpdyl/gcms/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -53,11 +53,11 @@ var configSetCommand = &cobra.Command{
 
 			confirmationMessage := fmt.Sprintf(
 				"Value exists: \n\t%s\n\t%s\n Are you sure you want to replace it? [y/N]",
-				styles.RenderDiff(previousValue, false, "- "),
-				styles.RenderDiff(v, true, "+ "),
+				helpers.RenderDiff(previousValue, false, "- "),
+				helpers.RenderDiff(v, true, "+ "),
 			)
 
-			confirmationRenderedMesage := styles.RenderBold(confirmationMessage)
+			confirmationRenderedMesage := helpers.RenderBold(confirmationMessage)
 			var confirmationAnswer string
 
 			fmt.Print(confirmationRenderedMesage)
@@ -89,11 +89,11 @@ var configGetCommand = &cobra.Command{
 		value := viper.GetString(k)
 
 		if value == "" {
-			fmt.Printf("Key %s doesn't exist in configuration\n", styles.RenderBold(k))
+			fmt.Printf("Key %s doesn't exist in configuration\n", helpers.RenderBold(k))
 			return
 		}
 
-		fmt.Printf("Result -> %s: %s\n", styles.RenderBold(k), styles.RenderBold(value))
+		fmt.Printf("Result -> %s: %s\n", helpers.RenderBold(k), helpers.RenderBold(value))
 	},
 }
 

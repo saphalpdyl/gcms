@@ -6,9 +6,8 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/saphalpdyl/gcms/helpers"
 	"github.com/saphalpdyl/gcms/internals/defaults"
-	"github.com/saphalpdyl/gcms/internals/styles"
-	"github.com/saphalpdyl/gcms/internals/validator"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -30,11 +29,11 @@ var initCommmand = &cobra.Command{
 		emptyFlag, _ := cmd.Flags().GetBool("empty")
 		// fromFlag, _ := cmd.Flags().GetString("from")
 
-		validator.ValidatePATExists()
+		helpers.ValidatePATExists()
 
 		// Check for previous initialization
 		if repositoryExists {
-			log.Fatalf("fatal %s", styles.RenderDiff("Repository already exists. Remove the existing repository first.", false, ""))
+			log.Fatalf("fatal %s", helpers.RenderDiff("Repository already exists. Remove the existing repository first.", false, ""))
 			return
 		}
 
@@ -49,7 +48,7 @@ var initCommmand = &cobra.Command{
 
 			// Create the remote repository
 			var repoNameAnswer string
-			fmt.Print(styles.RenderBold("Name of repo (default: gcms) - "))
+			fmt.Print(helpers.RenderBold("Name of repo (default: gcms) - "))
 			fmt.Scan(&repoNameAnswer)
 
 			if repoNameAnswer == "" {
@@ -59,7 +58,7 @@ var initCommmand = &cobra.Command{
 			response, err := githubService.CreateNewRepository(repoNameAnswer)
 			if err != nil {
 				fmt.Print(
-					styles.RenderDiff(
+					helpers.RenderDiff(
 						"Failed to create remote repository: Already Exists\n",
 						false,
 						"",

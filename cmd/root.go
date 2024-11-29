@@ -18,7 +18,7 @@ import (
 	"github.com/saphalpdyl/gcms/internals/defaults"
 	"github.com/saphalpdyl/gcms/internals/repository/github"
 	github_service "github.com/saphalpdyl/gcms/internals/services/github"
-	"github.com/saphalpdyl/gcms/internals/utils"
+	"github.com/saphalpdyl/gcms/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

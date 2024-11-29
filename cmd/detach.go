@@ -5,8 +5,8 @@ import (
 	"log"
 
 	"github.com/go-git/go-git/v5"
+	"github.com/saphalpdyl/gcms/helpers"
 	"github.com/saphalpdyl/gcms/internals/defaults"
-	"github.com/saphalpdyl/gcms/internals/styles"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -22,7 +22,7 @@ var detachCommand = &cobra.Command{
 		// Open the repository
 		r, err := git.PlainOpen(repoFolderPath)
 		if err != nil {
-			log.Fatalf("fatal %s", styles.RenderDiff(
+			log.Fatalf("fatal %s", helpers.RenderDiff(
 				"couldn't open the local git repository",
 				false,
 				"",
@@ -42,8 +42,8 @@ var detachCommand = &cobra.Command{
 			// Confirmation message
 			fmt.Printf(
 				"\n%s repository with link: %s\n Are you sure you want to proceed? [y/N]",
-				styles.RenderDiff("Deleting", false, ""),
-				styles.RenderBold(url),
+				helpers.RenderDiff("Deleting", false, ""),
+				helpers.RenderBold(url),
 			)
 			fmt.Scan(&deleteConfirmationAnswer)
 
