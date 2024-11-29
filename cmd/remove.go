@@ -9,7 +9,7 @@ import (
 )
 
 var removeCommand = &cobra.Command{
-	Use:   "remove",
+	Use:   "delete-local",
 	Short: "Delete the local repository [WARNING: Cannot be reversed]",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
