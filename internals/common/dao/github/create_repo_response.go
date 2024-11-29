@@ -2,6 +2,7 @@ package github_dao
 
 import "github.com/saphalpdyl/gcms/internals/repository/github"
 
+// Data Access Objects
 type CreateNewRepositoryResponseDAO struct {
 	URL                string
 	RepositoryName     string

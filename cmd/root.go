@@ -30,7 +30,7 @@ var (
 	repositoryExists bool
 )
 
-// Serivces
+// Repositories and Services
 var (
 	githubService    github_service.IGithubService
 	githubRepository github.IGithubRepository
@@ -91,9 +91,8 @@ func init() {
 	// Check for repository status
 	repositoryExists = utils.PathExists(repoFolderPath)
 
-	// Verify Github Repository Initialization
+	// Dependency injection
 	if viper.GetString(defaults.ConfigGithubPATToken) != defaults.MISSING_VALUE {
-		// github.Initiailize(viper.GetString(defaults.ConfigGithubPATToken))
 		githubRepository = github.NewRepository(viper.GetString(defaults.ConfigGithubPATToken))
 		githubService = github_service.NewService(githubRepository)
 	}
