@@ -93,7 +93,7 @@ func init() {
 
 	// Dependency injection
 	if viper.GetString(defaults.ConfigGithubPATToken) != defaults.MISSING_VALUE {
-		githubRepository = github.NewRepository(viper.GetString(defaults.ConfigGithubPATToken))
+		githubRepository = github.NewRepository(viper.GetString(defaults.ConfigGithubPATToken), repoFolderPath)
 		githubService = github_service.NewService(githubRepository)
 	}
 }

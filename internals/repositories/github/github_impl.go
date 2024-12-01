@@ -4,15 +4,19 @@ import (
 	"bytes"
 	"log"
 	"net/http"
+
+	"github.com/saphalpdyl/gcms/utils"
 )
 
 type GithubRepositoryImpl struct {
-	PATToken string
+	PATToken             string
+	RepositoryFolderPath string
 }
 
-func NewRepository(patToken string) IGithubRepository {
+func NewRepository(patToken string, repositoryFolderPath string) IGithubRepository {
 	return &GithubRepositoryImpl{
-		PATToken: patToken,
+		PATToken:             patToken,
+		RepositoryFolderPath: repositoryFolderPath,
 	}
 }
 
@@ -28,4 +32,10 @@ func prepareRequest(url string, requestType string, payload []byte, patToken str
 	req.Header.Set("Content-Type", "application/json")
 
 	return req
+}
+
+func (r *GithubRepositoryImpl) validateRepositoryExistence() {
+	if !utils.PathExists(r.RepositoryFolderPath) {
+		log.Fatal("fatal Repository validation failed:  ")
+	}
 }
