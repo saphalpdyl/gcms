@@ -6,4 +6,5 @@ type IGithubService interface {
 	CreateNewRepository(string) (*github_dao.CreateNewRepositoryResponseDAO, error)
 	DeleteRepository(string) error
 	LinkLocalToRemote(string, string, string)
+	UpdateRepository()
 }

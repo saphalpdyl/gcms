@@ -34,3 +34,7 @@ func (r *GithubServiceImpl) DeleteRepository(url string) error {
 func (r *GithubServiceImpl) LinkLocalToRemote(path string, repoName string, ownerName string) {
 	r.Repository.LinkLocalToRemote(path, repoName, ownerName)
 }
+
+func (r *GithubServiceImpl) UpdateRepository() {
+	r.Repository.UpdateRepository()
+}
