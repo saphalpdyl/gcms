@@ -25,6 +25,9 @@ GCMS is a command-line interface (CLI) tool designed to manage content on GitHub
   - `gcms list`: Lists all files in the local repository.
   - `gcms remove <filename>.html`: Removes files from both the local and remote repositories.
   - `gcms update`: Pulls from remote and updates
+ 
+- **Health**
+  -  `gcms doctor`: Checks health of the installation
 
 ## Commands
 
@@ -45,6 +48,8 @@ GCMS is a command-line interface (CLI) tool designed to manage content on GitHub
 | `gcms list` | Lists all files in the local repository |
 | `gcms remove <filename>.html` | Removes the specified HTML file from both the local and remote repositories |
 | `gcms update` | Pulls from remote and updates
+| `gcms doctor` | Checks health of the installation
+
 
 
 ## Installation
