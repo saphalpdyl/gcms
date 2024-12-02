@@ -15,6 +15,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/saphalpdyl/gcms/handlers"
 	"github.com/saphalpdyl/gcms/internals/defaults"
 	"github.com/saphalpdyl/gcms/internals/repositories/github"
 	github_service "github.com/saphalpdyl/gcms/internals/services/github"
@@ -34,6 +35,7 @@ var (
 var (
 	githubService    github_service.IGithubService
 	githubRepository github.IGithubRepository
+	handler          handlers.IHandler
 )
 
 var rootCmd = &cobra.Command{
@@ -92,8 +94,12 @@ func init() {
 	repositoryExists = utils.PathExists(repoFolderPath)
 
 	// Dependency injection
-	if viper.GetString(defaults.ConfigGithubPATToken) != defaults.MISSING_VALUE {
-		githubRepository = github.NewRepository(viper.GetString(defaults.ConfigGithubPATToken), repoFolderPath)
-		githubService = github_service.NewService(githubRepository)
+	if viper.GetString(defaults.ConfigGithubPATToken) == defaults.MISSING_VALUE {
+		log.Fatal("fatal cannot proceed without Personal Access Token configured in settings. Visit https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens to learn more.")
 	}
+
+	githubRepository = github.NewRepository(viper.GetString(defaults.ConfigGithubPATToken), repoFolderPath)
+	githubService = github_service.NewService(githubRepository)
+
+	handler = handlers.NewHandler(githubService)
 }

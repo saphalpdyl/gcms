@@ -17,7 +17,7 @@ type InitHandlerParams struct {
 	RepositoryFolderPath string
 }
 
-func (h *Handler) InitHandler(params InitHandlerParams) {
+func (h *Handler) Init(params InitHandlerParams) {
 	if params.FromEmpty {
 		// Initialize the repository
 		createRepoCmd := exec.Command("git", "init", params.RepositoryFolderPath)

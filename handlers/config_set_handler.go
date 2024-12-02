@@ -9,13 +9,13 @@ import (
 )
 
 type ConfigSetHandlerParams struct {
-	k string
-	v string
+	K string
+	V string
 }
 
 func (h *Handler) ConfigSet(params ConfigSetHandlerParams) {
-	k := params.k
-	v := params.v
+	k := params.K
+	v := params.V
 
 	previousValue := viper.GetString(k)
 

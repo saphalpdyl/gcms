@@ -11,7 +11,7 @@ type RemoveHandlerParams struct {
 	RepositoryFolderPath string
 }
 
-func (h *Handler) RemoveHandler(params RemoveHandlerParams) {
+func (h *Handler) Remove(params RemoveHandlerParams) {
 	var deleteConfirmationAnswer string
 
 	// Confirmation message
