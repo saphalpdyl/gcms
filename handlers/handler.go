@@ -9,7 +9,7 @@ type IHandler interface {
 	ConfigGet(ConfigGetHandlerParams)
 	Detach(DetachHandlerParams)
 	Remove(RemoveHandlerParams)
-	// Init(bool)
+	Init(InitHandlerParams)
 }
 
 type Handler struct {
