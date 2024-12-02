@@ -27,7 +27,7 @@ func (h *Handler) Doctor(params DoctorHandlerParams) {
 	fmt.Print("\nRunning Diagnostics...\n\n")
 
 	if rootPathExists {
-		fmt.Println(helpers.RenderDoctorResult(".gcms folder exists", true, ""))
+		fmt.Println(helpers.RenderDoctorResult(".gcms folder exists", true, fmt.Sprintf("Found at %s", params.RootFolderPath)))
 	} else {
 		fmt.Println(helpers.RenderDoctorResult(".gcms folder not found in typical folders", false, "Try reinitializing GCMS using 'gcms init'"))
 	}
@@ -37,7 +37,7 @@ func (h *Handler) Doctor(params DoctorHandlerParams) {
 		configPathExists := utils.PathExists(filepath.Join(params.RootFolderPath, "gcms.config.yml"))
 
 		if configPathExists {
-			fmt.Println(helpers.RenderDoctorResult("Configuration exists", true, ""))
+			fmt.Println(helpers.RenderDoctorResult("Configuration exists", true, fmt.Sprintf("Found at %s", filepath.Join(params.RootFolderPath, "gcms.config.yml"))))
 		} else {
 			fmt.Println(helpers.RenderDoctorResult("Configuration file missing", false, "Try deleting the .gcms folder and run the CLI again"))
 		}
