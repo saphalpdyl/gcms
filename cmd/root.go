@@ -95,7 +95,7 @@ func init() {
 
 	// Dependency injection
 	if viper.GetString(defaults.ConfigGithubPATToken) == defaults.MISSING_VALUE {
-		log.Fatal("fatal cannot proceed without Personal Access Token configured in settings. Visit https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens to learn more.")
+		fmt.Println("[WARN] Personal Access Token missing in settings. Run gcms doctor to check health.")
 	}
 
 	githubRepository = github.NewRepository(viper.GetString(defaults.ConfigGithubPATToken), repoFolderPath)

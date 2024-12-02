@@ -55,7 +55,7 @@ func (h *Handler) Doctor(params DoctorHandlerParams) {
 				patTokenMissing := viper.GetString(defaults.ConfigGithubPATToken) == defaults.MISSING_VALUE
 
 				if patTokenMissing {
-					fmt.Println(helpers.RenderDoctorResult("Personal Access Token missing", false, "Set your GitHub PAT using 'gcms config set github.pat <token>'"))
+					fmt.Println(helpers.RenderDoctorResult("Personal Access Token missing", false, "Cannot proceed without Personal Access Token configured in settings. Visit https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens to learn more. Set your GitHub PAT using 'gcms config set github.pat <token>'"))
 				} else {
 					fmt.Println(helpers.RenderDoctorResult("Personal Access Token verified", true, ""))
 				}
