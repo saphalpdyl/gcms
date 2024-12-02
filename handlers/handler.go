@@ -8,7 +8,7 @@ type IHandler interface {
 	ConfigSet(ConfigSetHandlerParams)
 	ConfigGet(ConfigGetHandlerParams)
 	Detach(DetachHandlerParams)
-	// Remove(string)
+	Remove(RemoveHandlerParams)
 	// Init(bool)
 }
 
