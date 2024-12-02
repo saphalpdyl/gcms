@@ -10,6 +10,7 @@ type IHandler interface {
 	Detach(DetachHandlerParams)
 	Remove(RemoveHandlerParams)
 	Init(InitHandlerParams)
+	Update(UpdateHandlerParams)
 }
 
 type Handler struct {
