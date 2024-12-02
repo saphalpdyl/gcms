@@ -42,6 +42,6 @@ Gonna need something like a metadata.json that holds the metadata for each file
 }
 
 So the push would look like:
-gcms push abcdef.html -mt title=a new title;another_data=value
-            ^           ^     ^     ^      ^
-          File path  Metadata  Key  Value  Delimiter(;) 
+gcms push abcdef.html -g  kaggle  -mt     title=a new title;another_data=value
+            ^          ^    ^       ^       ^     ^      ^
+          File path  Group group Metadata  Key  Value  Delimiter(;) 

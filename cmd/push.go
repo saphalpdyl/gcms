@@ -11,17 +11,21 @@ var pushCommand = &cobra.Command{
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		metadataFlagValue, _ := cmd.Flags().GetString("metadata")
+		groupFlagValue, _ := cmd.Flags().GetString("group")
 
 		handler.Push(handlers.PushHandlerParams{
 			Metadata:    metadataFlagValue,
 			HasMetaData: metadataFlagValue != "",
 			Filepath:    args[0],
+			HasGroup:    groupFlagValue != "",
+			Group:       groupFlagValue,
 		})
 	},
 }
 
 func init() {
 	pushCommand.PersistentFlags().StringP("metadata", "m", "", "Provide a metadata to be stored in metadata.json to be picked up by other applications")
+	pushCommand.PersistentFlags().StringP("group", "g", "", "Groups the file by a keyword in both the filename and metaname. File name will appear as example.group.html.")
 
 	rootCmd.AddCommand(pushCommand)
 }
