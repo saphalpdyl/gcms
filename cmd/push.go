@@ -1,10 +1,7 @@
 package cmd
 
 import (
-	"fmt"
-	"log"
-
-	"github.com/saphalpdyl/gcms/helpers"
+	"github.com/saphalpdyl/gcms/handlers"
 	"github.com/spf13/cobra"
 )
 
@@ -15,19 +12,11 @@ var pushCommand = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		metadataFlagValue, _ := cmd.Flags().GetString("metadata")
 
-		var metaDataKeyValuePairs [][]string
-
-		if metadataFlagValue != "" {
-			var err error
-
-			metaDataKeyValuePairs, err = helpers.ParseStringFromSSV(metadataFlagValue)
-
-			if err != nil {
-				log.Fatal("fatal couldn't parse metadata")
-			}
-		}
-
-		fmt.Println(metaDataKeyValuePairs)
+		handler.Push(handlers.PushHandlerParams{
+			Metadata:    metadataFlagValue,
+			HasMetaData: metadataFlagValue != "",
+			Filepath:    args[0],
+		})
 	},
 }
 

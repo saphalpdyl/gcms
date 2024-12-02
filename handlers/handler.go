@@ -12,6 +12,7 @@ type IHandler interface {
 	Init(InitHandlerParams)
 	Update(UpdateHandlerParams)
 	Doctor(DoctorHandlerParams)
+	Push(PushHandlerParams)
 }
 
 type Handler struct {
