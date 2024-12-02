@@ -24,3 +24,24 @@ GCMS will have a gcms.hist file that will track every transaction including:
 
 🟡 This is just for reports. 
 ⭕ Backup and reverting is entirely controlled by the git backend, so won't have to worry about that.
+
+
+-- Further improvements on pushin --
+Gonna need something like a metadata.json that holds the metadata for each file
+
+>>metadata.json
+{
+  "lastUpdated": "XXX:XXXTXX:XXZ",
+  "files": [
+    {
+      "filepath": "abc.html",
+      "title": "abcdef",
+      "XYZ": "ABC",
+    }
+  ]
+}
+
+So the push would look like:
+gcms push abcdef.html -mt title=a new title;another_data=value
+            ^           ^     ^     ^      ^
+          File path  Metadata  Key  Value  Delimiter(;) 
