@@ -11,6 +11,7 @@ type IHandler interface {
 	Remove(RemoveHandlerParams)
 	Init(InitHandlerParams)
 	Update(UpdateHandlerParams)
+	Doctor(DoctorHandlerParams)
 }
 
 type Handler struct {
