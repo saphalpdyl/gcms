@@ -19,22 +19,17 @@ type DoctorHandlerParams struct {
 }
 
 func (h *Handler) Doctor(params DoctorHandlerParams) {
-	// Check for the .gcms folder
-	// Check for the .gcms.config.yaml file
-	// Check for PAT token
-	// Check for the repo folder
-	// Check for git in repo folder
-	// Check for remote information in setings
-
 	viper := params.Viper
-	var statusMessages []string
-
 	rootPathExists := utils.PathExists(params.RootFolderPath)
 
+	fmt.Println(helpers.RenderBold("GCMS Doctor"))
+	fmt.Println(helpers.RenderBold("==========="))
+	fmt.Print("\nRunning Diagnostics...\n\n")
+
 	if rootPathExists {
-		statusMessages = append(statusMessages, helpers.RenderDiff("✅ .gcms folder exists", true, ""))
+		fmt.Println(helpers.RenderDoctorResult(".gcms folder exists", true, ""))
 	} else {
-		statusMessages = append(statusMessages, helpers.RenderDiff("❌ .gcms folder not found in typical folders.", false, ""))
+		fmt.Println(helpers.RenderDoctorResult(".gcms folder not found in typical folders", false, "Try reinitializing GCMS using 'gcms init'"))
 	}
 
 	// Proceed only if root path exists
@@ -42,65 +37,57 @@ func (h *Handler) Doctor(params DoctorHandlerParams) {
 		configPathExists := utils.PathExists(filepath.Join(params.RootFolderPath, "gcms.config.yml"))
 
 		if configPathExists {
-			statusMessages = append(statusMessages, helpers.RenderDiff("✅ configuration exists", true, ""))
+			fmt.Println(helpers.RenderDoctorResult("Configuration exists", true, ""))
 		} else {
-			statusMessages = append(statusMessages, helpers.RenderDiff("❌ .gcms.config.yml is missing. Try deleting the .gcms folder and run the CLI again.", false, ""))
+			fmt.Println(helpers.RenderDoctorResult("Configuration file missing", false, "Try deleting the .gcms folder and run the CLI again"))
 		}
 
 		// Proceed only if config exists
 		if configPathExists {
-
 			viper.SetConfigType("yaml")
 			viper.SetConfigFile(filepath.Join(params.RootFolderPath, "gcms.config.yml"))
 			viper.ReadInConfig()
 
 			if err := viper.ReadInConfig(); err != nil {
-				statusMessages = append(statusMessages, helpers.RenderDiff("❌ Couldn't read configuration file. The file might be corrupted.", false, ""))
+				fmt.Println(helpers.RenderDoctorResult("Configuration file corrupted", false, "Try deleting the configuration file and reinitializing GCMS"))
 			} else {
-				// Proceed only if there was no error while reading the config file
-
-				statusMessages = append(statusMessages, helpers.RenderDiff("✅ Configuration file ok", true, ""))
+				fmt.Println(helpers.RenderDoctorResult("Configuration file verified", true, ""))
 				patTokenMissing := viper.GetString(defaults.ConfigGithubPATToken) == defaults.MISSING_VALUE
 
 				if patTokenMissing {
-					statusMessages = append(statusMessages, helpers.RenderDiff("❌ Personal Access Token is missing.", false, ""))
+					fmt.Println(helpers.RenderDoctorResult("Personal Access Token missing", false, "Set your GitHub PAT using 'gcms config set github.pat <token>'"))
 				} else {
-					statusMessages = append(statusMessages, helpers.RenderDiff("✅ Personal Access Token found in configuration", true, ""))
+					fmt.Println(helpers.RenderDoctorResult("Personal Access Token verified", true, ""))
 				}
 
 				// Proceed even if pat might be missing
 				// Check for local repository
 				if !params.RepositoryExists {
-					statusMessages = append(statusMessages, helpers.RenderDiff("❌ Local Repository is missing. Create a new one using gcms init --empty or gcms init --from <remote-url>", false, ""))
+					fmt.Println(helpers.RenderDoctorResult("Local Repository missing", false, "Create a new one using 'gcms init --empty' or 'gcms init --from <remote-url>'"))
 				} else {
-					statusMessages = append(statusMessages, helpers.RenderDiff("✅ Local Repository was found", true, ""))
+					fmt.Println(helpers.RenderDoctorResult("Local Repository found", true, ""))
 
 					// Proceed only if git folder is not missing
 					// Check for git initialization status in the folder
 					_, err := git.PlainOpen(params.RepositoryFolderPath)
 
 					if err != nil {
-						// Repository opening failed
-						statusMessages = append(statusMessages, helpers.RenderDiff("❌ Git was not found in the local repository path. Please reinitialize GCMS.", false, ""))
+						fmt.Println(helpers.RenderDoctorResult("Git not initialized in repository", false, "Please reinitialize GCMS"))
 					} else {
-						statusMessages = append(statusMessages, helpers.RenderDiff("✅ Git was found in the local repository path.", true, ""))
+						fmt.Println(helpers.RenderDoctorResult("Git initialized in repository", true, ""))
 
 						// Proceed only if repository was found
 						remoteURL := viper.GetString(defaults.ConfigGithubRemoteURL)
 						remoteSettingsMissing := remoteURL == defaults.MISSING_VALUE
 
 						if remoteSettingsMissing {
-							statusMessages = append(statusMessages, helpers.RenderDiff("❌ GCMS is not connected with remote.", false, ""))
+							fmt.Println(helpers.RenderDoctorResult("Remote connection missing", false, "Connect to remote using 'gcms remote set <url>'"))
 						} else {
-							statusMessages = append(statusMessages, helpers.RenderDiff(fmt.Sprintf("✅ GCMS is connected with remote at %v", remoteURL), true, ""))
+							fmt.Println(helpers.RenderDoctorResult(fmt.Sprintf("Connected to remote at %v", remoteURL), true, ""))
 						}
 					}
 				}
 			}
 		}
-	}
-
-	for _, msg := range statusMessages {
-		fmt.Println(msg)
 	}
 }
