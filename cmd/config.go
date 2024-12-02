@@ -5,7 +5,6 @@ import (
 	"log"
 
 	"github.com/saphalpdyl/gcms/handlers"
-	"github.com/saphalpdyl/gcms/helpers"
 	"github.com/saphalpdyl/gcms/internals/defaults"
 	"github.com/saphalpdyl/gcms/utils"
 	"github.com/spf13/cobra"
@@ -65,14 +64,9 @@ var configGetCommand = &cobra.Command{
 
 		k := args[0]
 
-		value := viper.GetString(k)
-
-		if value == "" {
-			fmt.Printf("Key %s doesn't exist in configuration\n", helpers.RenderBold(k))
-			return
-		}
-
-		fmt.Printf("Result -> %s: %s\n", helpers.RenderBold(k), helpers.RenderBold(value))
+		handler.ConfigGet(handlers.ConfigGetHandlerParams{
+			K: k,
+		})
 	},
 }
 

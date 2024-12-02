@@ -8,11 +8,11 @@ import (
 )
 
 type ConfigGetHandlerParams struct {
-	k string
+	K string
 }
 
 func (h *Handler) ConfigGet(params ConfigGetHandlerParams) {
-	k := params.k
+	k := params.K
 	value := viper.GetString(k)
 
 	if value == "" {

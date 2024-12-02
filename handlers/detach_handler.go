@@ -11,7 +11,7 @@ import (
 )
 
 type DetachHandlerParams struct {
-	Viper                viper.Viper
+	Viper                *viper.Viper
 	RepositoryFolderPath string
 	IsHardDetach         bool
 }
