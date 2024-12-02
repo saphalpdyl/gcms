@@ -14,11 +14,12 @@ var pushCommand = &cobra.Command{
 		groupFlagValue, _ := cmd.Flags().GetString("group")
 
 		handler.Push(handlers.PushHandlerParams{
-			Metadata:    metadataFlagValue,
-			HasMetaData: metadataFlagValue != "",
-			Filepath:    args[0],
-			HasGroup:    groupFlagValue != "",
-			Group:       groupFlagValue,
+			Metadata:           metadataFlagValue,
+			HasMetaData:        metadataFlagValue != "",
+			Filepath:           args[0],
+			HasGroup:           groupFlagValue != "",
+			Group:              groupFlagValue,
+			RepositoryFilePath: repoFolderPath,
 		})
 	},
 }
