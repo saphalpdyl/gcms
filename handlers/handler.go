@@ -6,8 +6,8 @@ import (
 
 type IHandler interface {
 	ConfigSet(ConfigSetHandlerParams)
-	// ConfigGet(string)
-	// Detach(bool)
+	ConfigGet(ConfigGetHandlerParams)
+	Detach(DetachHandlerParams)
 	// Remove(string)
 	// Init(bool)
 }
