@@ -86,14 +86,10 @@ func (h *Handler) Push(params PushHandlerParams) {
 		log.Fatal("fatal couldn't calculate the relative path of the file")
 	}
 
-	fmt.Printf("Before %v\n", group)
 	group.Files = append(group.Files, &models.FileMetadata{
 		FilePath: relativePath,
 		Metadata: metaDataKeyValuePairs,
 	})
-	fmt.Printf("After %v\n", group)
-
-	fmt.Println(metadata)
 
 	// Save metadata
 	err = helpers.WriteMetadata(params.RepositoryFilePath, metadata)
