@@ -1,36 +1,32 @@
+I'll update the documentation to reflect the new push command details and add the Go install method for installation. Here's the revised documentation:
 
 # GCMS (GitHub Content Management System) 🗃️
-
 GCMS is a command-line interface (CLI) tool designed to manage content on GitHub repositories efficiently. It provides a set of commands to initialize, configure, and manage content through github, making it easier to handle content directly from the terminal.
 
 [![Tech Stack](https://skillicons.dev/icons?i=go)]()
 
 ## Features
-
 - **Initialize Repositories**: 
   - `gcms init --empty`: Initializes an empty repository and sets it as the GCMS repository.
   - `gcms init --from <github_link>`: Clones an existing repository and configures it as the GCMS repository.
-
 - **Repository Information**:
   - `gcms info repo`: Displays information about the local GCMS repository.
   - `gcms info remote`: Shows details about the remote GCMS repository.
-
 - **Detach Repositories**:
   - `gcms detach`: Soft detaches the local repository from the remote.
   - `gcms detach --hard`: Hard detaches and deletes the remote repository, given sufficient permissions.
-
 - **File Management**:
-  - `gcms push <filename>.html`: Pushes an HTML file to the repository.
-  - `gcms push (-c / --convert) <filename>.ipynb`: Converts a Jupyter Notebook file to HTML and pushes it to the repository.
+  - `gcms push <filename>`: Pushes a file to the repository.
+  - `gcms push (-g / --group) <group_name>`: Pushes files grouped under a specific name.
+  - `gcms push (-m / --metadata) <metadata_key>:<metadata_value>`: Adds metadata to pushed files.
   - `gcms list`: Lists all files in the local repository.
-  - `gcms remove <filename>.html`: Removes files from both the local and remote repositories.
+  - `gcms remove <filename>`: Removes files from both the local and remote repositories.
   - `gcms update`: Pulls from remote and updates
  
 - **Health**
   -  `gcms doctor`: Checks health of the installation
 
 ## Commands
-
 | Command | Description |
 |---------|-------------|
 | `gcms` | Show menu |
@@ -43,47 +39,55 @@ GCMS is a command-line interface (CLI) tool designed to manage content on GitHub
 | `gcms detach` | Soft detaches the remote repository, removing only the remotes |
 | `gcms detach --hard` | Hard detaches and deletes the remote repository, given sufficient permissions |
 | `gcms delete-local` | [WARN] Deletes the local repository |
-| `gcms push <filename>.html` | Pushes the specified HTML file to the repository |
-| `gcms push (-c / --convert) <filename>.ipynb` | Converts the Jupyter Notebook file to HTML and pushes it to the repository |
+| `gcms push <filename>` | Pushes the specified file to the repository |
+| `gcms push (-g / --group) <group_name>` | Pushes files grouped under a specific name |
+| `gcms push (-m / --metadata) <metadata_key>:<metadata_value>` | Adds metadata to pushed files |
 | `gcms list` | Lists all files in the local repository |
-| `gcms remove <filename>.html` | Removes the specified HTML file from both the local and remote repositories |
-| `gcms update` | Pulls from remote and updates
+| `gcms remove <filename>` | Removes the specified file from both the local and remote repositories |
+| `gcms update` | Pulls from remote and updates |
 | `gcms doctor` | Checks health of the installation
 
-
-
 ## Installation
+There are two primary methods to install GCMS:
 
-To install GCMS, ensure you have Go installed on your system, then clone the repository and build the CLI:
-
+### Method 1: Building from Source
+Clone the repository and build the CLI:
 ```bash
-git clone https://github.com/yourusername/gcms.git
+git clone https://github.com/saphalpdyl/gcms.git
 cd gcms
 go build -o gcms
 ```
 
-## Usage
-
-After building the CLI, you can run commands using:
-
+### Method 2: Go Install
+Use Go's installation method to directly install the CLI:
 ```bash
-./gcms <command> [flags] [arguments]
+go install github.com/saphalpdyl/gcms@latest
 ```
 
-For example, to initialize an empty repository, use:
+After installation, you can run GCMS directly from your command line.
 
+## Usage
+After installing, you can run commands using:
 ```bash
-./gcms init --empty
+gcms <command> [flags] [arguments]
+```
+
+### Example Usage
+Initialize an empty repository:
+```bash
+gcms init --empty
+```
+
+Push a file with grouping and metadata:
+```bash
+gcms push -g blog -m tags=golang;cli=mypost.html
 ```
 
 ## Contributing
-
 Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure that your code follows the project's coding standards and includes relevant tests.
 
 ## License
-
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
 ## Support
-
 For any issues or questions, please open an issue on the GitHub repository or contact the maintainers directly.
