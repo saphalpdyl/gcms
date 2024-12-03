@@ -1,13 +1,17 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"time"
 
 	"github.com/saphalpdyl/gcms/helpers"
 	"github.com/saphalpdyl/gcms/internals/defaults"
+	"github.com/saphalpdyl/gcms/internals/models"
 	"github.com/spf13/viper"
 )
 
@@ -64,6 +68,23 @@ func (h *Handler) Init(params InitHandlerParams) {
 
 		// Add the remote repository to the local
 		h.githubService.LinkLocalToRemote(params.RepositoryFolderPath, response.RepositoryName, response.RepositoryOwner.RepositoryOwnerName)
+
+		// Create new metadata.json file
+		metadataInformation := &models.RootMetaData{
+			LastUpdated: time.Now().UnixMilli(),
+			Data:        make([]models.GroupData, 0),
+		}
+
+		stringifiedJson, err := json.Marshal(metadataInformation)
+		if err != nil {
+			log.Fatal("fatal couldn't create a empty metadata.json file. Generating manually is advised.")
+		}
+
+		os.WriteFile(
+			filepath.Join(params.RepositoryFolderPath, "metadata.json"),
+			stringifiedJson,
+			os.ModePerm,
+		)
 
 		return
 	}
