@@ -15,17 +15,17 @@ type RemoveHandlerParams struct {
 }
 
 func (h *Handler) Remove(params RemoveHandlerParams) {
-	metadata, err := helpers.ReadMetadata(params.FilePathToRemove)
+	metadata, err := helpers.ReadMetadata(params.RepositoryFolderPath)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if !helpers.MetadataFilePathExists(metadata, params.FilePathToRemove) {
+	if !helpers.MetadataFilePathExists(metadata, filepath.Base(params.FilePathToRemove)) {
 		log.Fatalf("fatal file doesn't exist: %s", params.FilePathToRemove)
 	}
 
-	helpers.MetadataRemoveFilePath(metadata, params.FilePathToRemove)
+	helpers.MetadataRemoveFilePath(metadata, filepath.Base(params.FilePathToRemove))
 
 	err = helpers.WriteMetadata(params.RepositoryFolderPath, metadata)
 

@@ -16,7 +16,7 @@ func ReadMetadata(repositoryFolderPath string) (*models.RootMetaData, error) {
 	)
 
 	if err != nil {
-		return nil, fmt.Errorf("fatal couldn't read metadata.json")
+		return nil, fmt.Errorf("fatal couldn't read metadata.json %v", err)
 	}
 
 	var metadata models.RootMetaData
