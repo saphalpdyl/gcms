@@ -5,7 +5,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var removeCommand = &cobra.Command{
+var deleteLocalCommand = &cobra.Command{
 	Use:   "delete-local",
 	Short: "Delete the local repository [WARNING: Cannot be reversed]",
 	Args:  cobra.NoArgs,
@@ -17,5 +17,5 @@ var removeCommand = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(removeCommand)
+	rootCmd.AddCommand(deleteLocalCommand)
 }
