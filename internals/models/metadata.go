@@ -6,12 +6,12 @@ type FileMetadata struct {
 }
 
 type GroupData struct {
-	Group string         `json:"group"`
-	Files []FileMetadata `json:"files"`
+	Group string          `json:"group"`
+	Files []*FileMetadata `json:"files"`
 }
 
 type RootMetaData struct {
 	LastUpdated int64 `json:"last_updated"`
 
-	Data []GroupData `json:"data"`
+	Data []*GroupData `json:"data"`
 }

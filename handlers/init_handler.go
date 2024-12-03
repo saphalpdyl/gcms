@@ -72,7 +72,7 @@ func (h *Handler) Init(params InitHandlerParams) {
 		// Create new metadata.json file
 		metadataInformation := &models.RootMetaData{
 			LastUpdated: time.Now().UnixMilli(),
-			Data:        make([]models.GroupData, 0),
+			Data:        make([]*models.GroupData, 0),
 		}
 
 		stringifiedJson, err := json.Marshal(metadataInformation)

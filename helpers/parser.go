@@ -7,8 +7,8 @@ import (
 
 // SSV -> Semi-colon delimited values
 // func ParseStringFromSSV(input string) map[string]string {
-func ParseStringFromSSV(input string) ([][]string, error) {
-	var result [][]string
+func ParseStringFromSSV(input string) (map[string]string, error) {
+	result := make(map[string]string)
 
 	// Custom splitting function that respects quotes
 	pairs := splitWithQuotes(input)
@@ -34,7 +34,8 @@ func ParseStringFromSSV(input string) ([][]string, error) {
 		// Unescape semicolons
 		value = strings.ReplaceAll(value, `\;`, `;`)
 
-		result = append(result, []string{key, value})
+		// result = append(result, []string{key, value})
+		result[key] = value
 	}
 
 	return result, nil

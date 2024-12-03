@@ -2,12 +2,11 @@ package handlers
 
 import (
 	"fmt"
-	"io"
 	"log"
-	"os"
 	"path/filepath"
 
 	"github.com/saphalpdyl/gcms/helpers"
+	"github.com/saphalpdyl/gcms/internals/models"
 	"github.com/saphalpdyl/gcms/utils"
 )
 
@@ -22,8 +21,9 @@ type PushHandlerParams struct {
 }
 
 func (h *Handler) Push(params PushHandlerParams) {
-	var metaDataKeyValuePairs [][]string
+	metaDataKeyValuePairs := make(map[string]string)
 
+	// Validate path exists
 	if !utils.PathExists(params.Filepath) {
 		fmt.Printf("Error: invalid filepath %s. Item now Found\n", params.Filepath)
 		return
@@ -49,11 +49,58 @@ func (h *Handler) Push(params PushHandlerParams) {
 		log.Fatal("fatal couldn't find absolute path of the file")
 	}
 
-	if err := utils.CopyToPath(absoluteFilePath, newPathFile); err != nil {
-		log.Fatal("fatal couldn't copy file to repository: ", err)
-		return
+	groupName := params.Group
+	if !params.HasGroup {
+		// Assign `global` group to the file
+		groupName = "global"
 	}
 
-	fmt.Println(metaDataKeyValuePairs)
+	// Move the file to the repository
+	if err := utils.CopyToPath(absoluteFilePath, newPathFile); err != nil {
+		log.Fatal("fatal couldn't copy file to repository: ", err)
+	}
 
+	metadata, err := helpers.ReadMetadata(params.RepositoryFilePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var group *models.GroupData
+
+	if !helpers.MetadataGroupExists(metadata, groupName) {
+		// Group doesn't exists
+		// Creating a new group and adding it to the final metadata
+		group = &models.GroupData{
+			Group: groupName,
+			Files: make([]*models.FileMetadata, 0),
+		}
+
+		metadata.Data = append(metadata.Data, group)
+	} else {
+		group = helpers.MetadataGetGroup(metadata, groupName)
+	}
+
+	relativePath, err := filepath.Rel(params.RepositoryFilePath, newPathFile) // Getting the filepath relative to the repository
+
+	if err != nil {
+		log.Fatal("fatal couldn't calculate the relative path of the file")
+	}
+
+	fmt.Printf("Before %v\n", group)
+	group.Files = append(group.Files, &models.FileMetadata{
+		FilePath: relativePath,
+		Metadata: metaDataKeyValuePairs,
+	})
+	fmt.Printf("After %v\n", group)
+
+	fmt.Println(metadata)
+
+	// Save metadata
+	err = helpers.WriteMetadata(params.RepositoryFilePath, metadata)
+
+	if err != nil {
+		log.Fatalf("fatal %v", err)
+	}
+
+	fmt.Print(helpers.RenderBold("File added successfully..."))
 }
