@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"log"
 	"path/filepath"
+	"time"
 
+	"github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/plumbing/object"
 	"github.com/saphalpdyl/gcms/helpers"
 	"github.com/saphalpdyl/gcms/internals/models"
 	"github.com/saphalpdyl/gcms/utils"
@@ -80,16 +83,21 @@ func (h *Handler) Push(params PushHandlerParams) {
 		group = helpers.MetadataGetGroup(metadata, groupName)
 	}
 
-	relativePath, err := filepath.Rel(params.RepositoryFilePath, newPathFile) // Getting the filepath relative to the repository
+	// Getting the filepath relative to the repository
+	relativePath, err := filepath.Rel(params.RepositoryFilePath, newPathFile)
 
 	if err != nil {
 		log.Fatal("fatal couldn't calculate the relative path of the file")
 	}
 
+	// Add file to the group object
 	group.Files = append(group.Files, &models.FileMetadata{
 		FilePath: relativePath,
 		Metadata: metaDataKeyValuePairs,
 	})
+
+	// Updated the last updated property
+	metadata.LastUpdated = time.Now().UnixMilli()
 
 	// Save metadata
 	err = helpers.WriteMetadata(params.RepositoryFilePath, metadata)
@@ -97,6 +105,29 @@ func (h *Handler) Push(params PushHandlerParams) {
 	if err != nil {
 		log.Fatalf("fatal %v", err)
 	}
+
+	// Commit the changes
+	g, _ := git.PlainOpen(params.RepositoryFilePath)
+	w, _ := g.Worktree()
+
+	_, err = w.Add(".")
+	if err != nil {
+		log.Fatal("fatal couldn't stage all files in git")
+	}
+
+	_, err = w.Commit(fmt.Sprintf("updated at %d", metadata.LastUpdated), &git.CommitOptions{
+		Author: &object.Signature{
+			Name:  "GCMS Service Worker",
+			Email: "worer",
+			When:  time.Now(),
+		},
+	})
+
+	if err != nil {
+		log.Fatal("fatal couldn't commit changes")
+	}
+
+	h.githubService.UpdateRepository()
 
 	fmt.Print(helpers.RenderBold("File added successfully..."))
 }

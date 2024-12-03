@@ -22,13 +22,9 @@ func (r *GithubRepositoryImpl) UpdateRepository() {
 		log.Fatal("fatal couldn't open working tree: ", err)
 	}
 
-	err = w.Pull(&git.PullOptions{
+	w.Pull(&git.PullOptions{
 		RemoteName: "origin",
 	})
-
-	if err != nil {
-		log.Fatal("fatal couldn't pull from remote: ", err)
-	}
 
 	// Push
 	err = g.Push(&git.PushOptions{
