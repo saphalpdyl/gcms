@@ -1,6 +1,7 @@
 # No build folders
 /build/**
 /out/**
+/dist/**
 
 # No Built Files
 *.exe
