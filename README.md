@@ -61,7 +61,7 @@ go build -o gcms
 ### Method 2: Go Install
 Use Go's installation method to directly install the CLI:
 ```bash
-go install github.com/saphalpdyl/gcms@latest
+go install github.com/saphalpdyl/gcms
 ```
 
 After installation, you can run GCMS directly from your command line.
