@@ -58,6 +58,8 @@ func (h *Handler) Push(params PushHandlerParams) {
 		groupName = "global"
 	}
 
+	fileExistsInRepo := utils.PathExists(newPathFile)
+
 	// Move the file to the repository
 	if err := utils.CopyToPath(absoluteFilePath, newPathFile); err != nil {
 		log.Fatal("fatal couldn't copy file to repository: ", err)
@@ -90,11 +92,13 @@ func (h *Handler) Push(params PushHandlerParams) {
 		log.Fatal("fatal couldn't calculate the relative path of the file")
 	}
 
-	// Add file to the group object
-	group.Files = append(group.Files, &models.FileMetadata{
-		FilePath: relativePath,
-		Metadata: metaDataKeyValuePairs,
-	})
+	if !fileExistsInRepo {
+		// Add file to the group object
+		group.Files = append(group.Files, &models.FileMetadata{
+			FilePath: relativePath,
+			Metadata: metaDataKeyValuePairs,
+		})
+	}
 
 	// Updated the last updated property
 	metadata.LastUpdated = time.Now().UnixMilli()
