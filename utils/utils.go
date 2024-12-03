@@ -2,6 +2,8 @@ package utils
 
 import (
 	"fmt"
+	"io"
+	"log"
 	"os"
 )
 
@@ -38,4 +40,28 @@ func PathExists(path string) bool {
 		return false
 	}
 	return false
+}
+
+func CopyToPath(from string, to string) error {
+	originalFile, err := os.Open(from)
+	if err != nil {
+		log.Fatal("fatal couldn't open file")
+	}
+
+	defer originalFile.Close()
+
+	moveFile, err := os.Create(to)
+	if err != nil {
+		log.Fatal("fatal couldn't move file to repository: ", err)
+	}
+
+	defer moveFile.Close()
+
+	_, err = io.Copy(moveFile, originalFile)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return nil
 }

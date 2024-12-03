@@ -29,6 +29,7 @@ func (h *Handler) Push(params PushHandlerParams) {
 		return
 	}
 
+	// Validate and compute metadata values
 	if params.HasMetaData {
 		var err error
 
@@ -39,7 +40,7 @@ func (h *Handler) Push(params PushHandlerParams) {
 		}
 	}
 
-	// Extract file name
+	// Extract file names
 	baseFileName := filepath.Base(params.Filepath)
 	newPathFile := filepath.Join(params.RepositoryFilePath, baseFileName)
 	absoluteFilePath, err := filepath.Abs(params.Filepath)
@@ -48,24 +49,9 @@ func (h *Handler) Push(params PushHandlerParams) {
 		log.Fatal("fatal couldn't find absolute path of the file")
 	}
 
-	originalFile, err := os.Open(absoluteFilePath)
-	if err != nil {
-		log.Fatal("fatal couldn't open file")
-	}
-
-	defer originalFile.Close()
-
-	moveFile, err := os.Create(newPathFile)
-	if err != nil {
-		log.Fatal("fatal couldn't move file to repository: ", err)
-	}
-
-	defer moveFile.Close()
-
-	_, err = io.Copy(moveFile, originalFile)
-
-	if err != nil {
-		panic(err)
+	if err := utils.CopyToPath(absoluteFilePath, newPathFile); err != nil {
+		log.Fatal("fatal couldn't copy file to repository: ", err)
+		return
 	}
 
 	fmt.Println(metaDataKeyValuePairs)
