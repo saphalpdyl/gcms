@@ -6,8 +6,6 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/go-git/go-git/v5"
-	"github.com/go-git/go-git/v5/plumbing/object"
 	"github.com/saphalpdyl/gcms/helpers"
 	"github.com/saphalpdyl/gcms/internals/models"
 	"github.com/saphalpdyl/gcms/utils"
@@ -110,25 +108,13 @@ func (h *Handler) Push(params PushHandlerParams) {
 		log.Fatalf("fatal %v", err)
 	}
 
-	// Commit the changes
-	g, _ := git.PlainOpen(params.RepositoryFilePath)
-	w, _ := g.Worktree()
-
-	_, err = w.Add(".")
-	if err != nil {
-		log.Fatal("fatal couldn't stage all files in git")
-	}
-
-	_, err = w.Commit(fmt.Sprintf("updated at %d", metadata.LastUpdated), &git.CommitOptions{
-		Author: &object.Signature{
-			Name:  "GCMS Service Worker",
-			Email: "worer",
-			When:  time.Now(),
-		},
-	})
+	err = helpers.CommitCurrentChanges(
+		params.RepositoryFilePath,
+		fmt.Sprintf("last updated at %d", time.Now().UnixMilli()),
+	)
 
 	if err != nil {
-		log.Fatal("fatal couldn't commit changes")
+		log.Fatal(err)
 	}
 
 	h.githubService.UpdateRepository()

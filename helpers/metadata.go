@@ -62,3 +62,40 @@ func MetadataGetGroup(metadata *models.RootMetaData, groupName string) *models.G
 
 	return nil
 }
+
+func MetadataFilePathExists(metadata *models.RootMetaData, filePathToSearch string) bool {
+	for _, groupItem := range metadata.Data {
+		for _, fileItem := range groupItem.Files {
+			if fileItem.FilePath == filePathToSearch {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
+func MetadataRemoveFilePath(metadata *models.RootMetaData, filePathToSearch string) {
+
+	metadata.Data = make([]*models.GroupData, 0)
+
+	for _, groupItem := range metadata.Data {
+		newGroup := &models.GroupData{
+			Group: groupItem.Group,
+			Files: make([]*models.FileMetadata, 0),
+		}
+
+		for _, fileItem := range groupItem.Files {
+			if fileItem.FilePath == filePathToSearch {
+				continue
+			}
+
+			newGroup.Files = append(newGroup.Files, &models.FileMetadata{
+				FilePath: fileItem.FilePath,
+				Metadata: fileItem.Metadata,
+			})
+		}
+
+		metadata.Data = append(metadata.Data, newGroup)
+	}
+}
