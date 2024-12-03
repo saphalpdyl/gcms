@@ -77,7 +77,7 @@ func MetadataFilePathExists(metadata *models.RootMetaData, filePathToSearch stri
 
 func MetadataRemoveFilePath(metadata *models.RootMetaData, filePathToSearch string) {
 
-	metadata.Data = make([]*models.GroupData, 0)
+	newData := make([]*models.GroupData, 0)
 
 	for _, groupItem := range metadata.Data {
 		newGroup := &models.GroupData{
@@ -96,6 +96,8 @@ func MetadataRemoveFilePath(metadata *models.RootMetaData, filePathToSearch stri
 			})
 		}
 
-		metadata.Data = append(metadata.Data, newGroup)
+		newData = append(newData, newGroup)
 	}
+
+	metadata.Data = newData
 }
