@@ -10,7 +10,7 @@ var deleteLocalCommand = &cobra.Command{
 	Short: "Delete the local repository [WARNING: Cannot be reversed]",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		handler.Remove(handlers.RemoveHandlerParams{
+		handler.DeleteLocal(handlers.DeleteLocalHandlerParams{
 			RepositoryFolderPath: repoFolderPath,
 		})
 	},

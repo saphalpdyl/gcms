@@ -8,11 +8,12 @@ type IHandler interface {
 	ConfigSet(ConfigSetHandlerParams)
 	ConfigGet(ConfigGetHandlerParams)
 	Detach(DetachHandlerParams)
-	Remove(RemoveHandlerParams)
+	DeleteLocal(DeleteLocalHandlerParams)
 	Init(InitHandlerParams)
 	Update(UpdateHandlerParams)
 	Doctor(DoctorHandlerParams)
 	Push(PushHandlerParams)
+	Remove(RemoveHandlerParams)
 }
 
 type Handler struct {
