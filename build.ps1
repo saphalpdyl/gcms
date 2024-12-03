@@ -1,12 +1,16 @@
 # Go Cross-Platform Build Script
+
+# Configuration
 $projectName = "gcms"
-$mainPackagePath = "."
+$mainPackagePath = "."  # Path to your main.go file
 $outputDir = ".\dist"
 
+# Create output directory if it doesn't exist
 if (!(Test-Path -Path $outputDir)) {
-    New-Item -ItemType Directory -Force -Path $outputDir | Out-Null
+    New-Item -ItemType Directory -Force -Path $outputDir
 }
 
+# Platforms to build for
 $platforms = @(
     @{OS="windows"; Arch="amd64"; Ext=".exe"},
     @{OS="windows"; Arch="386"; Ext=".exe"},
@@ -18,69 +22,35 @@ $platforms = @(
     @{OS="linux"; Arch="arm64"; Ext=""}
 )
 
-# Parallel build function
-function Build-GoProjectParallel {
+# Build function
+function Build-GoProject {
     param (
         [string]$OS,
         [string]$Arch,
-        [string]$Ext,
-        [string]$ProjectName,
-        [string]$MainPackagePath,
-        [string]$OutputDir
+        [string]$Ext
     )
 
-    $job = Start-Job -ScriptBlock {
-        param($OS, $Arch, $Ext, $ProjectName, $MainPackagePath, $OutputDir)
-        
-        $env:GOOS = $OS
-        $env:GOARCH = $Arch
+    $env:GOOS = $OS
+    $env:GOARCH = $Arch
 
-        $outputName = "$ProjectName-$OS-$Arch$Ext"
-        $outputPath = Join-Path $OutputDir $outputName
+    $outputName = "$projectName-$OS-$Arch$Ext"
+    $outputPath = Join-Path $outputDir $outputName
 
-        $result = @{
-            OS = $OS
-            Arch = $Arch
-            Success = $false
-            OutputPath = $outputPath
-        }
-
-        try {
-            go build -o $outputPath $MainPackagePath
-            $result.Success = $true
-        }
-        catch {
-            $result.Success = $false
-        }
-
-        return $result
-    } -ArgumentList $OS, $Arch, $Ext, $ProjectName, $MainPackagePath, $OutputDir
+    Write-Host "Building for $OS/$Arch..."
     
-    return $job
-}
+    go build -o $outputPath $mainPackagePath
 
-# Start parallel builds
-$jobs = $platforms | ForEach-Object {
-    Build-GoProjectParallel -OS $_.OS -Arch $_.Arch -Ext $_.Ext `
-                            -ProjectName $projectName `
-                            -MainPackagePath $mainPackagePath `
-                            -OutputDir $outputDir
-}
-
-# Wait for all jobs and process results
-$results = $jobs | Wait-Job | Receive-Job
-
-# Display results
-foreach ($result in $results) {
-    if ($result.Success) {
-        Write-Host "Successfully built $($result.OS)/$($result.Arch)" -ForegroundColor Green
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "Successfully built $outputName" -ForegroundColor Green
     } else {
-        Write-Host "Failed to build $($result.OS)/$($result.Arch)" -ForegroundColor Red
+        Write-Host "Failed to build $outputName" -ForegroundColor Red
     }
 }
 
-# Clean up jobs
-$jobs | Remove-Job
+# Perform builds
+foreach ($platform in $platforms) {
+    Build-GoProject -OS $platform.OS -Arch $platform.Arch -Ext $platform.Ext
+}
 
 # Optional: Create checksums
 Write-Host "Generating checksums..." -ForegroundColor Cyan
@@ -91,4 +61,4 @@ Get-ChildItem $outputDir | ForEach-Object {
     Write-Host "Checksum for $($_.Name): $hash"
 }
 
-Write-Host "Parallel build process completed. Binaries are in $outputDir" -ForegroundColor Green
+Write-Host "Build process completed. Binaries are in $outputDir" -ForegroundColor Green
