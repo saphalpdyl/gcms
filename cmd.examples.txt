@@ -45,3 +45,22 @@ So the push would look like:
 gcms push abcdef.html -g  kaggle  -mt     title=a new title;another_data=value
             ^          ^    ^       ^       ^     ^      ^
           File path  Group group Metadata  Key  Value  Delimiter(;) 
+
+
+>>> Huh forms and Charm CLI integration
+Gonna make the CLI more beautiful and interactive
+
+# Plan
+Add a new schema item that defines the schema for each group's metadata.
+Hence, the user has to create a group before pushing to that group
+When creating a group, the user has to define that schema
+
+>>> Examples in JSON but the final will be in YAML format
+{
+    "kaggle": {
+        "schema": [
+              ("title", "singleline"),
+              ("description", "textarea"),
+         ]
+    }
+}

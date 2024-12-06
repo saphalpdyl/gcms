@@ -14,6 +14,7 @@ type IHandler interface {
 	Doctor(DoctorHandlerParams)
 	Push(PushHandlerParams)
 	Remove(RemoveHandlerParams)
+	List(ListHandlerParams)
 }
 
 type Handler struct {
