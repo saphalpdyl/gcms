@@ -11,7 +11,7 @@ var versionCommand = &cobra.Command{
 	Use:   "version",
 	Short: "Gives the version of the installation",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(helpers.RenderBold("GCMS Version v1.2.1"))
+		fmt.Println(helpers.RenderBold("GCMS Version v1.3.0"))
 	},
 }
 
