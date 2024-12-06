@@ -2,10 +2,8 @@ package handlers
 
 import (
 	"fmt"
-	"log"
-	"os"
 
-	"github.com/saphalpdyl/gcms/utils"
+	"github.com/saphalpdyl/gcms/helpers"
 )
 
 type ListHandlerParams struct {
@@ -20,19 +18,9 @@ var (
 )
 
 func (h *Handler) List(params ListHandlerParams) {
-	entries, err := os.ReadDir(params.RepositoryFolderPath)
+	files := helpers.GetFilesFromRepositoryDir(params.RepositoryFolderPath, READDIR_EXCLUDE)
 
-	if err != nil {
-		log.Fatal("fatal cannot read repository path: ", err)
+	for _, file := range files {
+		fmt.Printf("- %s\n", file.Name())
 	}
-
-	for _, e := range entries {
-		if utils.StringInStringList(e.Name(), READDIR_EXCLUDE) {
-			// Ignore excluded folders
-			continue
-		}
-
-		fmt.Printf("- %s\n", e.Name())
-	}
-
 }
