@@ -22,7 +22,7 @@ func CreateEmptyJsonFile(folderPath string) error {
 	encoder.SetIndent("", " ")
 
 	if err = encoder.Encode(jsonData); err != nil {
-		return fmt.Errorf("Couldn't encode json")
+		return fmt.Errorf("couldn't encode json")
 	}
 
 	return nil

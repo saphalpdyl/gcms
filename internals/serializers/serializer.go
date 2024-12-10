@@ -1,6 +1,6 @@
 package serializers
 
 type ISerializer[T any] interface {
-	Serialize(string) (T, error)
-	Deserialize(T) string
+	Deserialize([]byte, *T) error
+	Serialize(T) []byte
 }

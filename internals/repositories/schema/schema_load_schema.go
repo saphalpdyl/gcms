@@ -1,5 +1,38 @@
 package schema
 
-func (s *SchemaRepository) LoadSchema() {
+import (
+	"os"
+	"path"
 
+	"github.com/saphalpdyl/gcms/internals/models"
+	"github.com/saphalpdyl/gcms/utils"
+)
+
+func (s *SchemaRepository) LoadSchema() error {
+	configAbsolutePath := path.Join(s.schemaFolderPath, s.schemaFileName)
+
+	if !utils.PathExists(configAbsolutePath) {
+		// If path doesn't exist, create new path
+		s.InitializeEmptySchema()
+	}
+
+	// We arfile, err := os.Open(configAbsolutePath)
+	data, err := os.ReadFile(configAbsolutePath)
+
+	if err != nil {
+		// Handle errors when opening the file (e.g., permission denied)
+		return err
+	}
+
+	var schema models.SchemaMap
+	err = s.serializer.Deserialize(data, &schema)
+
+	if err != nil {
+		// Handle errors during deserialization
+		return err
+	}
+
+	s.data = &schema
+
+	return nil
 }
