@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/saphalpdyl/gcms/handlers"
 	"github.com/saphalpdyl/gcms/helpers"
@@ -18,7 +19,7 @@ var schemaCreateCommand = &cobra.Command{
 	Args: func(cmd *cobra.Command, args []string) error {
 		// Validation of SSV
 		if len(args) != 2 {
-			return fmt.Errorf("%v", "Not enough arguments")
+			return fmt.Errorf("not enough arguments, got %d", len(args))
 		}
 
 		_, err := helpers.ParseStringFromSSV(args[1])
@@ -29,7 +30,15 @@ var schemaCreateCommand = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		handler.SchemaCreateNewGroup(handlers.SchemaCreateNewHandlerParams{})
+		groupName := args[0]
+		if groupName == " " {
+			log.Fatal("fatal invalid groupName: ", helpers.RenderBold(groupName))
+		}
+
+		handler.SchemaCreateNewGroup(handlers.SchemaCreateNewHandlerParams{
+			GroupName: groupName,
+			FormData:  args[1],
+		})
 	},
 }
 
