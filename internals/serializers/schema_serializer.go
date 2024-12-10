@@ -4,7 +4,7 @@ import "github.com/saphalpdyl/gcms/internals/models"
 
 type SchemaSerializer struct{}
 
-func New() ISerializer[models.SchemaMap] {
+func NewSchemaSerializer() ISerializer[models.SchemaMap] {
 	return &SchemaSerializer{}
 }
 

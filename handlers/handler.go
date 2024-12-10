@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/saphalpdyl/gcms/internals/repositories/github"
+	"github.com/saphalpdyl/gcms/internals/repositories/schema"
 )
 
 type IHandler interface {
@@ -22,10 +23,12 @@ type IHandler interface {
 
 type Handler struct {
 	githubRepostiory github.IGithubRepository
+	schemaRepository schema.ISchemaRepository
 }
 
-func NewHandler(githubRepository github.IGithubRepository) *Handler {
+func NewHandler(githubRepository github.IGithubRepository, schemaRepository schema.ISchemaRepository) *Handler {
 	return &Handler{
 		githubRepostiory: githubRepository,
+		schemaRepository: schemaRepository,
 	}
 }

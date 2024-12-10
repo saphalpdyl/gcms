@@ -13,14 +13,13 @@ type SchemaRepository struct {
 	serializer serializers.ISerializer[models.SchemaMap]
 }
 
-func New(
+func NewRepository(
 	schemaFolderPath string,
 	schemaFileName string,
-	data *models.SchemaMap,
+	serializer serializers.ISerializer[models.SchemaMap],
 ) ISchemaRepository {
 	return &SchemaRepository{
 		schemaFolderPath: schemaFolderPath,
 		schemaFileName:   schemaFileName,
-		data:             data,
 	}
 }

@@ -18,6 +18,8 @@ import (
 	"github.com/saphalpdyl/gcms/handlers"
 	"github.com/saphalpdyl/gcms/internals/defaults"
 	"github.com/saphalpdyl/gcms/internals/repositories/github"
+	"github.com/saphalpdyl/gcms/internals/repositories/schema"
+	"github.com/saphalpdyl/gcms/internals/serializers"
 	"github.com/saphalpdyl/gcms/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -32,13 +34,23 @@ var (
 
 // Repositories and Services
 var (
-	githubRepository github.IGithubRepository
-	handler          handlers.IHandler
+	handler handlers.IHandler
 )
 
 var rootCmd = &cobra.Command{
 	Use:   "gcms",
 	Short: "A free Github-based Content Management System",
+}
+
+func initDependencies() {
+	// Dependency Injection
+	githubRepository := github.NewRepository(viper.GetString(defaults.ConfigGithubPATToken), repoFolderPath)
+
+	// Schema Repository
+	schemaSerializer := serializers.NewSchemaSerializer()
+	schemaRepository := schema.NewRepository(repoFolderPath, "schema.form.json", schemaSerializer)
+
+	handler = handlers.NewHandler(githubRepository, schemaRepository)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -96,7 +108,5 @@ func init() {
 		fmt.Println("[WARN] Personal Access Token missing in settings. Run gcms doctor to check health.")
 	}
 
-	githubRepository = github.NewRepository(viper.GetString(defaults.ConfigGithubPATToken), repoFolderPath)
-
-	handler = handlers.NewHandler(githubRepository)
+	initDependencies()
 }
