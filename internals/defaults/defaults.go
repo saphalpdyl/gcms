@@ -12,3 +12,7 @@ var (
 	ConfigGithubRemoteRepoName = "github.remote.repo_name"
 	ConfigGithubRemoteUserName = "github.remote.user_name"
 )
+
+const (
+	FormSchemaFileName = "schema.form.json"
+)

@@ -67,6 +67,14 @@ func (h *Handler) Doctor(params DoctorHandlerParams) {
 				} else {
 					fmt.Println(helpers.RenderDoctorResult("Local Repository found", true, ""))
 
+					// Check for schema configuration
+					formSchemaFilePath := filepath.Join(params.RepositoryFolderPath, defaults.FormSchemaFileName)
+					if utils.PathExists(formSchemaFilePath) {
+						fmt.Println(helpers.RenderDoctorResult("CMS Schema configuration found", true, fmt.Sprintf("Found at %s", formSchemaFilePath)))
+					} else {
+						fmt.Println(helpers.RenderDoctorResult("CMS Schema configuration missing", false, ""))
+					}
+
 					// Proceed only if git folder is not missing
 					// Check for git initialization status in the folder
 					_, err := git.PlainOpen(params.RepositoryFolderPath)

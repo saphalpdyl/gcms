@@ -48,7 +48,7 @@ func initDependencies() {
 
 	// Schema Repository
 	schemaSerializer := serializers.NewSchemaSerializer()
-	schemaRepository := schema.NewRepository(repoFolderPath, "schema.form.json", schemaSerializer)
+	schemaRepository := schema.NewRepository(repoFolderPath, defaults.FormSchemaFileName, schemaSerializer)
 
 	if !schemaRepository.SchemaExists() {
 		err := schemaRepository.InitializeEmptySchema()
