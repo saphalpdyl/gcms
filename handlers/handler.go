@@ -15,6 +15,9 @@ type IHandler interface {
 	Push(PushHandlerParams)
 	Remove(RemoveHandlerParams)
 	List(ListHandlerParams)
+
+	// Schema Specific
+	SchemaCreateNew(SchemaCreateNewHandlerParams)
 }
 
 type Handler struct {
