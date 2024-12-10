@@ -50,6 +50,12 @@ func initDependencies() {
 	schemaSerializer := serializers.NewSchemaSerializer()
 	schemaRepository := schema.NewRepository(repoFolderPath, "schema.form.json", schemaSerializer)
 
+	if !schemaRepository.SchemaExists() {
+		schemaRepository.InitializeEmptySchema()
+	}
+
+	schemaRepository.LoadSchema()
+
 	handler = handlers.NewHandler(githubRepository, schemaRepository)
 }
 
