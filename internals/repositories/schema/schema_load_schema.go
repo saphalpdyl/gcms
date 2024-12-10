@@ -5,20 +5,10 @@ import (
 	"path"
 
 	"github.com/saphalpdyl/gcms/internals/models"
-	"github.com/saphalpdyl/gcms/utils"
 )
 
 func (s *SchemaRepository) LoadSchema() error {
 	configAbsolutePath := path.Join(s.schemaFolderPath, s.schemaFileName)
-
-	if !utils.PathExists(configAbsolutePath) {
-		// If path doesn't exist, create new path
-		err := s.InitializeEmptySchema()
-
-		if err != nil {
-			return err
-		}
-	}
 
 	data, err := os.ReadFile(configAbsolutePath)
 
