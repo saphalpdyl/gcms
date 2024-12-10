@@ -18,7 +18,7 @@ type IHandler interface {
 	List(ListHandlerParams)
 
 	// Schema Specific
-	SchemaCreateNew(SchemaCreateNewHandlerParams)
+	SchemaCreateNewGroup(SchemaCreateNewHandlerParams)
 }
 
 type Handler struct {

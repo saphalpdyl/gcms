@@ -29,7 +29,7 @@ var schemaCreateCommand = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		handler.SchemaCreateNew(handlers.SchemaCreateNewHandlerParams{})
+		handler.SchemaCreateNewGroup(handlers.SchemaCreateNewHandlerParams{})
 	},
 }
 

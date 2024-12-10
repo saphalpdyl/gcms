@@ -1,8 +1,9 @@
 package handlers
 
 type SchemaCreateNewHandlerParams struct {
+	groupName string
 }
 
-func (h *Handler) SchemaCreateNew(params SchemaCreateNewHandlerParams) {
+func (h *Handler) SchemaCreateNewGroup(params SchemaCreateNewHandlerParams) {
 
 }

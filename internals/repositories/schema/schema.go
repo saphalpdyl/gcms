@@ -3,6 +3,8 @@ package schema
 import "github.com/saphalpdyl/gcms/internals/models"
 
 type ISchemaRepository interface {
+	SchemaExists() bool
+
 	InitializeEmptySchema() error
 	LoadSchema() error
 
