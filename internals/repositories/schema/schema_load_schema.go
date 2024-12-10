@@ -16,7 +16,6 @@ func (s *SchemaRepository) LoadSchema() error {
 		s.InitializeEmptySchema()
 	}
 
-	// We arfile, err := os.Open(configAbsolutePath)
 	data, err := os.ReadFile(configAbsolutePath)
 
 	if err != nil {
