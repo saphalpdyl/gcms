@@ -13,7 +13,11 @@ func (s *SchemaRepository) LoadSchema() error {
 
 	if !utils.PathExists(configAbsolutePath) {
 		// If path doesn't exist, create new path
-		s.InitializeEmptySchema()
+		err := s.InitializeEmptySchema()
+
+		if err != nil {
+			return err
+		}
 	}
 
 	data, err := os.ReadFile(configAbsolutePath)

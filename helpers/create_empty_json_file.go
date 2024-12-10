@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/saphalpdyl/gcms/internals/models"
 )
 
-func CreateEmptyJsonFile(folderPath string) error {
-	file, err := os.Create("schema.json")
+func CreateEmptyJsonFile(folderPath string, fileName string) error {
+	file, err := os.Create(filepath.Join(folderPath, fileName))
 	if err != nil {
 		return fmt.Errorf("%v", err)
 	}
