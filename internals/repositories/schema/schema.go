@@ -10,4 +10,9 @@ type ISchemaRepository interface {
 
 	GetGroupSchema(string) (*models.Schema, error)
 	UpdateGroupSchema(*models.Schema, string) error
+
+	CreateGroupSchema(string, []models.SchemaFormItem) error
+
+	// Private methods
+	saveCurrentSchemaToFS() error
 }
