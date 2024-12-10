@@ -21,5 +21,6 @@ func NewRepository(
 	return &SchemaRepository{
 		schemaFolderPath: schemaFolderPath,
 		schemaFileName:   schemaFileName,
+		serializer:       serializer,
 	}
 }

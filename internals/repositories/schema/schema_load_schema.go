@@ -18,6 +18,7 @@ func (s *SchemaRepository) LoadSchema() error {
 	}
 
 	var schema models.SchemaMap
+
 	err = s.serializer.Deserialize(data, &schema)
 
 	if err != nil {
