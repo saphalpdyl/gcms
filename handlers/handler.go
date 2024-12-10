@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	github_service "github.com/saphalpdyl/gcms/internals/services/github"
+	"github.com/saphalpdyl/gcms/internals/repositories/github"
 )
 
 type IHandler interface {
@@ -21,11 +21,11 @@ type IHandler interface {
 }
 
 type Handler struct {
-	githubService github_service.IGithubService
+	githubRepostiory github.IGithubRepository
 }
 
-func NewHandler(service github_service.IGithubService) *Handler {
+func NewHandler(githubRepository github.IGithubRepository) *Handler {
 	return &Handler{
-		githubService: service,
+		githubRepostiory: githubRepository,
 	}
 }

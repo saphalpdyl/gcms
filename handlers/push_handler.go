@@ -117,7 +117,7 @@ func (h *Handler) Push(params PushHandlerParams) {
 		log.Fatal(err)
 	}
 
-	h.githubService.UpdateRepository()
+	h.githubRepostiory.UpdateRepository()
 
 	fmt.Print(helpers.RenderBold("File added successfully..."))
 }

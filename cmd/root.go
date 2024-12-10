@@ -18,7 +18,6 @@ import (
 	"github.com/saphalpdyl/gcms/handlers"
 	"github.com/saphalpdyl/gcms/internals/defaults"
 	"github.com/saphalpdyl/gcms/internals/repositories/github"
-	github_service "github.com/saphalpdyl/gcms/internals/services/github"
 	"github.com/saphalpdyl/gcms/utils"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -33,7 +32,6 @@ var (
 
 // Repositories and Services
 var (
-	githubService    github_service.IGithubService
 	githubRepository github.IGithubRepository
 	handler          handlers.IHandler
 )
@@ -99,7 +97,6 @@ func init() {
 	}
 
 	githubRepository = github.NewRepository(viper.GetString(defaults.ConfigGithubPATToken), repoFolderPath)
-	githubService = github_service.NewService(githubRepository)
 
-	handler = handlers.NewHandler(githubService)
+	handler = handlers.NewHandler(githubRepository)
 }

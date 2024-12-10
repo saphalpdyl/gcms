@@ -40,7 +40,7 @@ func (h *Handler) Init(params InitHandlerParams) {
 			repoNameAnswer = "gcms"
 		}
 
-		response, err := h.githubService.CreateNewRepository(repoNameAnswer)
+		response, err := h.githubRepostiory.CreateNewRepository(repoNameAnswer)
 		if err != nil {
 			fmt.Print(
 				helpers.RenderDiff(
@@ -67,7 +67,7 @@ func (h *Handler) Init(params InitHandlerParams) {
 		viper.WriteConfig()
 
 		// Add the remote repository to the local
-		h.githubService.LinkLocalToRemote(params.RepositoryFolderPath, response.RepositoryName, response.RepositoryOwner.RepositoryOwnerName)
+		h.githubRepostiory.LinkLocalToRemote(params.RepositoryFolderPath, response.RepositoryName, response.RepositoryOwner.RepositoryOwnerName)
 
 		// Create new metadata.json file
 		metadataInformation := &models.RootMetaData{

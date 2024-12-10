@@ -51,7 +51,7 @@ func (h *Handler) Detach(params DetachHandlerParams) {
 			return
 		}
 
-		err = h.githubService.DeleteRepository(url)
+		err = h.githubRepostiory.DeleteRepository(url)
 
 		if err != nil {
 			log.Fatal("fatal couldn't delete the remote repository: ", err)

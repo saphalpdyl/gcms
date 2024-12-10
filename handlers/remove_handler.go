@@ -47,7 +47,7 @@ func (h *Handler) Remove(params RemoveHandlerParams) {
 		log.Fatal(err)
 	}
 
-	h.githubService.UpdateRepository()
+	h.githubRepostiory.UpdateRepository()
 
 	fmt.Printf("%s%s\n", helpers.RenderBold("Removed Successfully... "), params.FilePathToRemove)
 }
