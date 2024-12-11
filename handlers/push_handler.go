@@ -76,9 +76,7 @@ func handleUIPush(params PushHandlerParams, h *Handler) map[string]string {
 		formTitleValuePairs[k] = *v
 	}
 
-	fmt.Println(formTitleValuePairs)
-
-	return make(map[string]string)
+	return formTitleValuePairs
 }
 
 func (h *Handler) Push(params PushHandlerParams) {
