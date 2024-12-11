@@ -64,3 +64,6 @@ When creating a group, the user has to define that schema
          ]
     }
 }
+
+
+Making the push search for UI by default
