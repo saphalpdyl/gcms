@@ -1,5 +1,3 @@
-I'll update the documentation to reflect the new push command details and add the Go install method for installation. Here's the revised documentation:
-
 # GCMS (GitHub Content Management System) 🗃️
 GCMS is a command-line interface (CLI) tool designed to manage content on GitHub repositories efficiently. It provides a set of commands to initialize, configure, and manage content through github, making it easier to handle content directly from the terminal.
 
